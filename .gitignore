@@ -1,0 +1,23 @@
+# Node.js / frontend build folders
+node_modules/
+dist/
+build/
+
+# Python / backend
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+*.sqlite3
+
+# VS Code settings
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
