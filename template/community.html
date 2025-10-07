@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community - MindWell</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo"><h1>🌱 MindWell</h1></div>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="meditation.html" class="nav-link">Meditation</a>
+        <a href="journal.html" class="nav-link">Journal</a>
+        <a href="export.html" class="nav-link">Export</a>
+        <a href="login.html" class="nav-link">Logout</a>
+      </nav>
+    </header>
+
+    <main class="community-section">
+      <div class="community-header">
+        <h2>Community Support</h2>
+        <p>Share your thoughts, support others, and connect with people on similar journeys.</p>
+      </div>
+
+      <div class="community-editor fade-in">
+        <div class="form-group">
+          <label for="communityMessage">Share with the community</label>
+          <textarea 
+            id="communityMessage" 
+            class="community-textarea" 
+            placeholder="What's on your mind? Share your experiences, ask for advice, or offer support..."
+            rows="4"
+          ></textarea>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+          <span style="color: var(--text-light); font-size: 0.875rem;">
+            💬 Remember to be kind and supportive
+          </span>
+          <button id="postMessage" class="btn-primary">
+            📤 Post Message
+          </button>
+        </div>
+      </div>
+
+      <div class="posts-container fade-in">
+        <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 1.5rem;">
+          <h3>Recent Community Posts</h3>
+          <div style="display: flex; gap: 0.5rem;">
+            <button id="sortRecent" class="btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">
+              🔄 Newest
+            </button>
+            <button id="sortPopular" class="btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">
+              🔥 Popular
+            </button>
+          </div>
+        </div>
+        
+        <ul id="postsList" class="posts-list">
+          <!-- Posts will be loaded dynamically -->
+        </ul>
+        
+        <div id="emptyCommunity" class="empty-state" style="text-align: center; padding: 3rem; color: var(--text-light);">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">👥</div>
+          <h3 style="margin-bottom: 0.5rem; color: var(--text-light);">No posts yet</h3>
+          <p>Be the first to share something with the community!</p>
+        </div>
+      </div>
+
+      <div class="community-resources" style="margin-top: 3rem;">
+        <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">Community Guidelines & Resources</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+          <div style="background: var(--bg-white); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+            <h4 style="margin-bottom: 1rem; color: var(--primary-color);">🤝 Be Supportive</h4>
+            <p style="color: var(--text-light); font-size: 0.875rem; line-height: 1.5;">
+              Offer encouragement and understanding to others sharing their journey.
+            </p>
+          </div>
+          <div style="background: var(--bg-white); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+            <h4 style="margin-bottom: 1rem; color: var(--primary-color);">🔒 Respect Privacy</h4>
+            <p style="color: var(--text-light); font-size: 0.875rem; line-height: 1.5;">
+              Don't share personal information and respect others' boundaries.
+            </p>
+          </div>
+          <div style="background: var(--bg-white); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+            <h4 style="margin-bottom: 1rem; color: var(--primary-color);">💡 Share Experience</h4>
+            <p style="color: var(--text-light); font-size: 0.875rem; line-height: 1.5;">
+              Share what worked for you, but avoid giving medical advice.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2024 MindWell. Take care of your mental health.</p>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

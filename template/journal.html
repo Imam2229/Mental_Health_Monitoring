@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal - MindWell</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo"><h1>🌱 MindWell</h1></div>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="meditation.html" class="nav-link">Meditation</a>
+        <a href="export.html" class="nav-link">Export</a>
+        <a href="community.html" class="nav-link">Community</a>
+        <a href="login.html" class="nav-link">Logout</a>
+      </nav>
+    </header>
+
+    <main class="journal-section">
+      <div class="journal-header">
+        <h2>Daily Journal</h2>
+        <p>Reflect on your thoughts and moods to track your mental health journey.</p>
+      </div>
+
+      <div class="journal-editor fade-in">
+        <div class="form-group">
+          <label for="journalEntry">Today's Reflection</label>
+          <textarea 
+            id="journalEntry" 
+            class="journal-textarea" 
+            placeholder="How are you feeling today? What's on your mind? What are you grateful for?..."
+            rows="8"
+          ></textarea>
+        </div>
+        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+          <button id="saveEntry" class="btn-primary">
+            💾 Save Entry
+          </button>
+          <button id="clearEntry" class="btn-secondary">
+            🗑️ Clear
+          </button>
+        </div>
+      </div>
+
+      <div class="journal-entries fade-in">
+        <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 1.5rem;">
+          <h3>Recent Entries</h3>
+          <span class="entry-count" style="color: var(--text-light); font-size: 0.875rem;">
+            <span id="entriesCount">0</span> entries
+          </span>
+        </div>
+        
+        <ul id="entriesList" class="entries-list">
+          <!-- Entries will be loaded dynamically -->
+        </ul>
+        
+        <div id="emptyState" class="empty-state" style="text-align: center; padding: 3rem; color: var(--text-light);">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
+          <h3 style="margin-bottom: 0.5rem; color: var(--text-light);">No journal entries yet</h3>
+          <p>Start writing to begin your mental health journey.</p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2024 MindWell. Take care of your mental health.</p>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

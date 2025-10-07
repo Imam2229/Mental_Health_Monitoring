@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Export Journal - MindWell</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo"><h1>🌱 MindWell</h1></div>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="meditation.html" class="nav-link">Meditation</a>
+        <a href="journal.html" class="nav-link">Journal</a>
+        <a href="community.html" class="nav-link">Community</a>
+        <a href="login.html" class="nav-link">Logout</a>
+      </nav>
+    </header>
+
+    <main class="export-section">
+      <div class="export-header">
+        <h2>Export Your Data</h2>
+        <p>Download your mental health journey data for personal records or to share with healthcare professionals.</p>
+      </div>
+
+      <div class="export-options">
+        <div class="export-card fade-in">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+          <h3>Text Format</h3>
+          <p>Simple text file with all your journal entries and mood data</p>
+          <button id="exportTxt" class="btn-primary" style="width: 100%;">
+            📥 Download TXT
+          </button>
+        </div>
+
+        <div class="export-card fade-in">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+          <h3>CSV Format</h3>
+          <p>Spreadsheet-friendly format for data analysis and visualization</p>
+          <button id="exportCsv" class="btn-primary" style="width: 100%;">
+            📥 Download CSV
+          </button>
+        </div>
+
+        <div class="export-card fade-in">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
+          <h3>PDF Report</h3>
+          <p>Beautiful formatted report with charts and insights</p>
+          <button id="exportPdf" class="btn-primary" style="width: 100%;">
+            📥 Generate PDF
+          </button>
+        </div>
+      </div>
+
+      <div class="export-stats" style="margin-top: 3rem; background: var(--bg-white); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); max-width: 600px; margin-left: auto; margin-right: auto;">
+        <h3 style="margin-bottom: 1.5rem; color: var(--primary-color); text-align: center;">Your Data Summary</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <div style="text-align: center;">
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);" id="totalEntries">0</div>
+            <div style="color: var(--text-light); font-size: 0.875rem;">Journal Entries</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);" id="totalMoods">0</div>
+            <div style="color: var(--text-light); font-size: 0.875rem;">Mood Records</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);" id="avgMood">0</div>
+            <div style="color: var(--text-light); font-size: 0.875rem;">Average Mood</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);" id="dataSince">-</div>
+            <div style="color: var(--text-light); font-size: 0.875rem;">Tracking Since</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="export-notice" style="margin-top: 2rem; text-align: center; color: var(--text-light); max-width: 600px; margin-left: auto; margin-right: auto;">
+        <p style="font-size: 0.875rem;">
+          🔒 Your data is stored locally on your device and is never shared with third parties. 
+          Exports are for your personal use only.
+        </p>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2024 MindWell. Take care of your mental health.</p>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
