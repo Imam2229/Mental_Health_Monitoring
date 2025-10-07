@@ -1,210 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | MindWell Tracker</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>MindWell Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="container">
-    <!-- 🌱 Header -->
+    <!-- Header -->
     <header class="header">
-      <div class="header-content">
-        <div class="logo">
-          <div class="logo-icon">
-            <i class="fas fa-brain"></i>
-          </div>
-          <div>
-            <h1>MindWell Dashboard</h1>
-            <p>Welcome back! Here's your mental health overview</p>
-          </div>
-        </div>
-        <nav class="nav-links">
-          <a href="index.html" class="nav-link">Home</a>
-          <a href="login.html" class="nav-link">Login</a>
-          <a href="signup.html" class="nav-link">Sign Up</a>
-          <a href="dashboard.html" class="nav-link active">Dashboard</a>
-        </nav>
-      </div>
+      <div class="logo"><h1>MindWell</h1></div>
+      <nav class="nav">
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="journal.html" class="nav-link">Journal</a>
+        <a href="meditation.html" class="nav-link">Meditation</a>
+        <a href="community.html" class="nav-link">Community</a>
+        <a href="export.html" class="nav-link">Export</a>
+      </nav>
     </header>
 
-    <!-- 🌱 Dashboard Content -->
-    <main class="dashboard">
+    <!-- Dashboard Section -->
+    <section class="dashboard-section">
       <div class="dashboard-header">
-        <div class="welcome-message">
-          <h2>Hello, <span id="user-name">User</span>! 👋</h2>
-          <p>How are you feeling today?</p>
-        </div>
-        <div class="date-display" id="current-date">
-          <!-- Date will be populated by JavaScript -->
-        </div>
+        <h2>Welcome to Your Dashboard</h2>
+        <p>Track your mood and get daily tips.</p>
       </div>
 
-      <!-- Stats Overview -->
-      <div class="stats-overview">
-        <div class="stat-card">
-          <div class="stat-icon current-streak">
-            <i class="fas fa-fire"></i>
-          </div>
-          <div class="stat-info">
-            <div class="stat-number" id="streak-count">0</div>
-            <div class="stat-label">Current Streak</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon mood-average">
-            <i class="fas fa-smile"></i>
-          </div>
-          <div class="stat-info">
-            <div class="stat-number" id="mood-average">0</div>
-            <div class="stat-label">Avg. Mood</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon entries-count">
-            <i class="fas fa-calendar-check"></i>
-          </div>
-          <div class="stat-info">
-            <div class="stat-number" id="entries-count">0</div>
-            <div class="stat-label">Total Entries</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon goals-progress">
-            <i class="fas fa-bullseye"></i>
-          </div>
-          <div class="stat-info">
-            <div class="stat-number" id="goals-progress">0%</div>
-            <div class="stat-label">Goals Progress</div>
-          </div>
-        </div>
-      </div>
-
+      <!-- Mood Tracking Form -->
       <div class="dashboard-grid">
-        <!-- Mood Tracking Section -->
-        <div class="dashboard-section mood-tracker">
-          <div class="section-header">
-            <h3>Log Today's Mood</h3>
-            <p>How are you feeling right now?</p>
-          </div>
-          
-          <div class="mood-selector">
-            <div class="mood-option" data-mood="5" data-label="Excellent">
-              <div class="mood-emoji">😊</div>
-              <div class="mood-name">Excellent</div>
-            </div>
-            <div class="mood-option" data-mood="4" data-label="Good">
-              <div class="mood-emoji">😄</div>
-              <div class="mood-name">Good</div>
-            </div>
-            <div class="mood-option" data-mood="3" data-label="Neutral">
-              <div class="mood-emoji">😐</div>
-              <div class="mood-name">Neutral</div>
-            </div>
-            <div class="mood-option" data-mood="2" data-label="Down">
-              <div class="mood-emoji">😔</div>
-              <div class="mood-name">Down</div>
-            </div>
-            <div class="mood-option" data-mood="1" data-label="Struggling">
-              <div class="mood-emoji">😢</div>
-              <div class="mood-name">Struggling</div>
-            </div>
-          </div>
+        <div class="dashboard-card">
+          <h3>Mood Tracker</h3>
+          <select id="moodSelector" class="mood-selector">
+            <option value="">Select Mood</option>
+            <option value="Happy">Happy</option>
+            <option value="Sad">Sad</option>
+            <option value="Stressed">Stressed</option>
+            <option value="Neutral">Neutral</option>
+          </select>
+          <textarea id="moodDescription" class="journal-textarea" placeholder="How are you feeling today?"></textarea>
+          <button id="saveMoodBtn" class="btn-primary">Submit</button>
+          <p id="recommendation" style="margin-top:1rem; font-weight:500; color:#4a9c82;">Your recommendation will appear here.</p>
 
-          <div class="mood-notes">
-            <label for="mood-notes">Add notes (optional)</label>
-            <textarea id="mood-notes" placeholder="How was your day? What's on your mind?"></textarea>
-          </div>
+          <!-- Mood Submission Count -->
+          <p class="dashboard-stats">You have submitted <span id="moodCount">0</span> moods so far.</p>
 
-          <button class="btn btn-primary btn-full" id="log-mood-btn">
-            <i class="fas fa-plus"></i>
-            Log Mood Entry
-          </button>
-        </div>
-
-        <!-- Recent Activity -->
-        <div class="dashboard-section recent-activity">
-          <div class="section-header">
-            <h3>Recent Activity</h3>
-            <p>Your latest mood entries</p>
-          </div>
-          
-          <div class="activity-list" id="activity-list">
-            <div class="empty-state">
-              <i class="fas fa-clipboard-list"></i>
-              <p>No mood entries yet</p>
-              <small>Log your first mood to see it here!</small>
-            </div>
-          </div>
+          <!-- Monthly Mood Calendar -->
+          <div id="monthlyCalendar"></div>
         </div>
 
         <!-- Mood Chart -->
-        <div class="dashboard-section mood-chart">
-          <div class="section-header">
-            <h3>Mood Trends</h3>
-            <p>Your mood over the last 7 days</p>
-          </div>
-          
+        <div class="dashboard-card">
+          <h3>Weekly Mood Chart</h3>
           <div class="chart-container">
-            <div class="chart-placeholder">
-              <i class="fas fa-chart-line"></i>
-              <p>Mood chart will appear here</p>
-              <small>Start logging moods to see your trends</small>
-            </div>
-          </div>
-        </div>
-
-        <!-- Insights & Tips -->
-        <div class="dashboard-section insights">
-          <div class="section-header">
-            <h3>Personalized Insights</h3>
-            <p>Tips based on your patterns</p>
-          </div>
-          
-          <div class="insights-list">
-            <div class="insight-card">
-              <div class="insight-icon">
-                <i class="fas fa-heartbeat"></i>
-              </div>
-              <div class="insight-content">
-                <h4>Daily Check-ins</h4>
-                <p>Consistent tracking helps identify patterns and triggers.</p>
-              </div>
-            </div>
-            <div class="insight-card">
-              <div class="insight-icon">
-                <i class="fas fa-wind"></i>
-              </div>
-              <div class="insight-content">
-                <h4>Breathing Exercise</h4>
-                <p>Try the 4-7-8 technique: Breathe in for 4, hold for 7, exhale for 8.</p>
-              </div>
-            </div>
-            <div class="insight-card">
-              <div class="insight-icon">
-                <i class="fas fa-hiking"></i>
-              </div>
-              <div class="insight-content">
-                <h4>Outdoor Time</h4>
-                <p>Spending time in nature can boost mood and reduce stress.</p>
-              </div>
-            </div>
+            <canvas id="weeklyChart"></canvas>
           </div>
         </div>
       </div>
-    </main>
+    </section>
 
-    <!-- 🌱 Footer -->
+    <!-- Footer -->
     <footer class="footer">
-      <div class="container">
-        <p>&copy; 2024 MindWell Tracker. Built with ❤️ for better mental health.</p>
-      </div>
+      &copy; 2025 MindWell. All rights reserved.
     </footer>
   </div>
 
+  <!-- App.js -->
   <script src="app.js"></script>
 </body>
 </html>

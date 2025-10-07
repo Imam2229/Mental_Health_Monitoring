@@ -1,249 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MindWell Tracker | Your Mental Health Companion</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>MindWell - Mental Health Monitoring</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
-    <!-- 🌱 Header -->
     <header class="header">
-      <div class="header-content">
-        <div class="logo">
-          <div class="logo-icon">
-            <i class="fas fa-brain"></i>
-          </div>
-          <div>
-            <h1>MindWell Tracker</h1>
-            <p>Your personal mental health companion</p>
-          </div>
-        </div>
-        <nav class="nav-links">
-          <a href="index.html" class="nav-link active">Home</a>
-          <a href="login.html" class="nav-link">Login</a>
-          <a href="signup.html" class="nav-link">Sign Up</a>
-          <a href="dashboard.html" class="nav-link">Dashboard</a>
-        </nav>
-      </div>
+      <div class="logo"><h1>🌱 MindWell</h1></div>
+      <nav class="nav">
+        <a href="login.html" class="btn-login">Login</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="meditation.html" class="nav-link">Meditation</a>
+        <a href="journal.html" class="nav-link">Journal</a>
+        <a href="export.html" class="nav-link">Export</a>
+        <a href="community.html" class="nav-link">Community</a>
+      </nav>
     </header>
 
-    <!-- 🌱 Hero Section -->
-    <main class="hero">
-      <div class="hero-content fade-in">
+    <main class="hero-section">
+      <div class="hero-content">
         <h2>Track Your Mood, Improve Your Well-being</h2>
-        <p>Monitor your emotions, gain insights, and receive personalized recommendations to support your mental health journey.</p>
-        <div class="hero-buttons">
-          <a href="signup.html" class="btn btn-primary">
-            <i class="fas fa-rocket"></i>
-            Start Tracking
-          </a>
-          <a href="#features" class="btn btn-secondary">
-            <i class="fas fa-play-circle"></i>
-            How It Works
-          </a>
-        </div>
-        <div class="hero-stats">
-          <div class="stat">
-            <div class="stat-number">10K+</div>
-            <div class="stat-label">Active Users</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">95%</div>
-            <div class="stat-label">Report Improvement</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">24/7</div>
-            <div class="stat-label">Support</div>
-          </div>
-        </div>
+        <p>Monitor your emotional health with daily check-ins, visualize your progress, and get personalized recommendations. Join thousands on their mental wellness journey.</p>
+        <a href="login.html" class="btn-primary">Start Your Journey</a>
       </div>
-      <div class="hero-image fade-in delay-1">
-        <div class="dashboard-preview">
-          <div class="preview-header">
-            <div class="preview-dots">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+      <div class="hero-image">
+        <div class="feature-preview">
+          <div class="preview-card slide-up">
+            <h3>📊 Mood Tracking</h3>
+            <p>Daily emotional check-ins with detailed analytics</p>
           </div>
-          <div class="preview-content">
-            <div class="mood-tracker-preview">
-              <div class="preview-mood selected">😊</div>
-              <div class="preview-mood">😄</div>
-              <div class="preview-mood">😐</div>
-              <div class="preview-mood">😔</div>
-              <div class="preview-mood">😢</div>
-            </div>
-            <div class="preview-chart">
-              <div class="chart-bar" style="height: 30%"></div>
-              <div class="chart-bar" style="height: 60%"></div>
-              <div class="chart-bar" style="height: 80%"></div>
-              <div class="chart-bar" style="height: 50%"></div>
-              <div class="chart-bar" style="height: 70%"></div>
-            </div>
+          <div class="preview-card slide-up" style="animation-delay: 0.1s;">
+            <h3>📈 Progress Charts</h3>
+            <p>Visualize your mental health journey over time</p>
+          </div>
+          <div class="preview-card slide-up" style="animation-delay: 0.2s;">
+            <h3>💡 Smart Insights</h3>
+            <p>Personalized recommendations based on your patterns</p>
           </div>
         </div>
       </div>
     </main>
 
-    <!-- 🌱 Stats Section -->
-    <section class="stats fade-in delay-2">
-      <div class="container">
-        <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-icon">
-              <i class="fas fa-users"></i>
-            </div>
-            <div class="stat-number">10K+</div>
-            <div class="stat-label">Active Users</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon">
-              <i class="fas fa-chart-line"></i>
-            </div>
-            <div class="stat-number">95%</div>
-            <div class="stat-label">Report Improvement</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon">
-              <i class="fas fa-clock"></i>
-            </div>
-            <div class="stat-number">24/7</div>
-            <div class="stat-label">Support</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon">
-              <i class="fas fa-star"></i>
-            </div>
-            <div class="stat-number">4.9/5</div>
-            <div class="stat-label">User Rating</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 🌱 Features -->
-    <section id="features" class="features fade-in delay-3">
-      <div class="container">
-        <h2 class="section-title">How It Works</h2>
-        <p class="section-subtitle">Simple steps to better mental health awareness and management</p>
-        <div class="feature-grid">
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-chart-line"></i>
-            </div>
-            <h3>Track Your Mood</h3>
-            <p>Log your daily emotions and thoughts easily with our intuitive interface.</p>
-            <ul class="feature-list">
-              <li><i class="fas fa-check"></i> Quick daily check-ins</li>
-              <li><i class="fas fa-check"></i> Detailed mood notes</li>
-              <li><i class="fas fa-check"></i> Custom tags</li>
-            </ul>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-chart-bar"></i>
-            </div>
-            <h3>Visualize Patterns</h3>
-            <p>See your mood trends over time with beautiful, interactive charts.</p>
-            <ul class="feature-list">
-              <li><i class="fas fa-check"></i> Weekly insights</li>
-              <li><i class="fas fa-check"></i> Monthly reports</li>
-              <li><i class="fas fa-check"></i> Pattern recognition</li>
-            </ul>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-lightbulb"></i>
-            </div>
-            <h3>Get Recommendations</h3>
-            <p>Receive personalized wellness tips and exercises tailored for you.</p>
-            <ul class="feature-list">
-              <li><i class="fas fa-check"></i> Personalized tips</li>
-              <li><i class="fas fa-check"></i> Breathing exercises</li>
-              <li><i class="fas fa-check"></i> Mindfulness guides</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 🌱 CTA Section -->
-    <section class="cta-section">
-      <div class="container">
-        <div class="cta-content">
-          <h2>Ready to Start Your Mental Health Journey?</h2>
-          <p>Join thousands of users who have improved their well-being with MindWell Tracker</p>
-          <div class="cta-buttons">
-            <a href="signup.html" class="btn btn-primary btn-large">
-              <i class="fas fa-user-plus"></i>
-              Sign Up Free
-            </a>
-            <a href="login.html" class="btn btn-secondary btn-large">
-              <i class="fas fa-sign-in-alt"></i>
-              Login
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 🌱 Footer -->
     <footer class="footer">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-section">
-            <div class="footer-logo">
-              <i class="fas fa-brain"></i>
-              <span>MindWell Tracker</span>
-            </div>
-            <p>Your trusted companion for mental health tracking and improvement.</p>
-            <div class="social-links">
-              <a href="#"><i class="fab fa-twitter"></i></a>
-              <a href="#"><i class="fab fa-facebook"></i></a>
-              <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-linkedin"></i></a>
-            </div>
-          </div>
-          <div class="footer-section">
-            <h4>Product</h4>
-            <ul>
-              <li><a href="#features">Features</a></li>
-              <li><a href="#">Pricing</a></li>
-              <li><a href="#">Security</a></li>
-              <li><a href="#">Updates</a></li>
-            </ul>
-          </div>
-          <div class="footer-section">
-            <h4>Support</h4>
-            <ul>
-              <li><a href="#">Help Center</a></li>
-              <li><a href="#">Contact Us</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Terms of Service</a></li>
-            </ul>
-          </div>
-          <div class="footer-section">
-            <h4>Company</h4>
-            <ul>
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Careers</a></li>
-              <li><a href="#">Press</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p>&copy; 2024 MindWell Tracker. All rights reserved. Built with ❤️ for better mental health.</p>
-        </div>
-      </div>
+      <p>&copy; 2025 MindWell.Take care of your mental health.</p>
     </footer>
-  </div>
-
+  </div> 
   <script src="app.js"></script>
 </body>
 </html>
