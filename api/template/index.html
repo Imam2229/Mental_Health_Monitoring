@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MindWell - Mental Health Monitoring</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -12,12 +12,12 @@
     <header class="header">
       <div class="logo"><h1>🌱 MindWell</h1></div>
       <nav class="nav">
-        <a href="login.html" class="btn-login">Login</a>
-        <a href="dashboard.html" class="nav-link">Dashboard</a>
-        <a href="meditation.html" class="nav-link">Meditation</a>
-        <a href="journal.html" class="nav-link">Journal</a>
-        <a href="export.html" class="nav-link">Export</a>
-        <a href="community.html" class="nav-link">Community</a>
+        <a href="{{ url_for('login') }}" class="btn-login">Login</a>
+        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+        <a href="{{ url_for('meditation') }}" class="nav-link">Meditation</a>
+        <a href="{{ url_for('journal') }}" class="nav-link">Journal</a>
+        <a href="{{ url_for('export') }}" class="nav-link">Export</a>
+        <a href="{{ url_for('community') }}" class="nav-link">Community</a>
       </nav>
     </header>
 
@@ -25,7 +25,7 @@
       <div class="hero-content">
         <h2>Track Your Mood, Improve Your Well-being</h2>
         <p>Monitor your emotional health with daily check-ins, visualize your progress, and get personalized recommendations. Join thousands on their mental wellness journey.</p>
-        <a href="login.html" class="btn-primary">Start Your Journey</a>
+        <a href="{{ url_for('login') }}" class="btn-primary">Start Your Journey</a>
       </div>
       <div class="hero-image">
         <div class="feature-preview">
@@ -46,9 +46,9 @@
     </main>
 
     <footer class="footer">
-      <p>&copy; 2025 MindWell.Take care of your mental health.</p>
+      <p>&copy; 2025 MindWell. Take care of your mental health.</p>
     </footer>
   </div> 
-  <script src="app.js"></script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meditation - MindWell</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -12,12 +12,12 @@
     <header class="header">
       <div class="logo"><h1>🌱 MindWell</h1></div>
       <nav class="nav">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="dashboard.html" class="nav-link">Dashboard</a>
-        <a href="journal.html" class="nav-link">Journal</a>
-        <a href="export.html" class="nav-link">Export</a>
-        <a href="community.html" class="nav-link">Community</a>
-        <a href="login.html" class="nav-link">Logout</a>
+        <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+        <a href="{{ url_for('journal') }}" class="nav-link">Journal</a>
+        <a href="{{ url_for('export') }}" class="nav-link">Export</a>
+        <a href="{{ url_for('community') }}" class="nav-link">Community</a>
+        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
       </nav>
     </header>
 
@@ -82,26 +82,18 @@
       </div>
 
       <!-- Meditation Audio Sources -->
-<!-- Morning Calm Audio -->
-<audio id="morningCalmAudio" loop>
-  <source src="sound/morningCalm.mp3" type="audio/mpeg">
-</audio>
-
-<!-- Focus Boost Audio -->
-<audio id="focusBoostAudio" loop>
-  <source src="sound/focusBoost.mp3" type="audio/mpeg">
-</audio>
-
-<!-- Sleep Well Audio -->
-<audio id="sleepWellAudio" loop>
-  <source src="sound/sleepWell.mp3" type="audio/mpeg">
-</audio>
-
-<!-- Evening Relax Audio -->
-<audio id="eveningRelaxAudio" loop>
-  <source src="sound/eveningRelax.mp3" type="audio/mpeg">
-</audio>
-
+      <audio id="morningCalmAudio" loop>
+        <source src="{{ url_for('static', filename='sound/morningCalm.mp3') }}" type="audio/mpeg">
+      </audio>
+      <audio id="focusBoostAudio" loop>
+        <source src="{{ url_for('static', filename='sound/focusBoost.mp3') }}" type="audio/mpeg">
+      </audio>
+      <audio id="sleepWellAudio" loop>
+        <source src="{{ url_for('static', filename='sound/sleepWell.mp3') }}" type="audio/mpeg">
+      </audio>
+      <audio id="eveningRelaxAudio" loop>
+        <source src="{{ url_for('static', filename='sound/eveningRelax.mp3') }}" type="audio/mpeg">
+      </audio>
 
     </main>
 
@@ -110,6 +102,6 @@
     </footer>
   </div>
 
-  <script src="app.js"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

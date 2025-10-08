@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Journal - MindWell</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -12,12 +12,12 @@
     <header class="header">
       <div class="logo"><h1>🌱 MindWell</h1></div>
       <nav class="nav">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="dashboard.html" class="nav-link">Dashboard</a>
-        <a href="meditation.html" class="nav-link">Meditation</a>
-        <a href="export.html" class="nav-link">Export</a>
-        <a href="community.html" class="nav-link">Community</a>
-        <a href="login.html" class="nav-link">Logout</a>
+        <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+        <a href="{{ url_for('meditation') }}" class="nav-link">Meditation</a>
+        <a href="{{ url_for('export') }}" class="nav-link">Export</a>
+        <a href="{{ url_for('community') }}" class="nav-link">Community</a>
+        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
       </nav>
     </header>
 
@@ -54,7 +54,7 @@
         </div>
         
         <ul id="entriesList" class="entries-list">
-          <!-- Entries loaded dynamically by app.js -->
+          <!-- Entries loaded dynamically via JS/backend -->
         </ul>
 
         <div id="emptyState" class="empty-state" style="text-align: center; padding: 3rem; color: var(--text-light);">
@@ -66,11 +66,11 @@
     </main>
 
     <footer class="footer">
-      <p>&copy; 2024 MindWell. Take care of your mental health.</p>
+      <p>&copy; 2025 MindWell. Take care of your mental health.</p>
     </footer>
   </div>
 
-  <!-- App JS -->
-  <script src="app.js"></script>
+  <!-- JS: Separate static file -->
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

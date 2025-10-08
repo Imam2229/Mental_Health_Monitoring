@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - MindWell</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -38,7 +38,7 @@
               <input type="checkbox" id="rememberMe">
               Remember me
             </label>
-            <a href="#" style="font-size: 0.875rem; color: var(--primary-color); text-decoration: none;">
+            <a href="{{ url_for('forgot_password') }}" style="font-size: 0.875rem; color: var(--primary-color); text-decoration: none;">
               Forgot password?
             </a>
           </div>
@@ -65,11 +65,13 @@
         </div>
 
         <p class="signup-link">
-          Don't have an account? <a href="signup.html">Create account</a>
+          Don't have an account? <a href="{{ url_for('signup') }}">Create account</a>
         </p>
       </div>
     </div>
   </div>
-  <script src="app.js"></script>
+
+  <!-- JS -->
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
