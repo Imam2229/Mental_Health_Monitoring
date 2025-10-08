@@ -28,119 +28,88 @@
       </div>
 
       <div class="meditation-grid">
+        <!-- Morning Calm -->
         <div class="meditation-card fade-in">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">🌅</div>
+          <div class="emoji">🌅</div>
           <h3>Morning Calm</h3>
           <p>5-minute meditation to start your day with clarity and intention</p>
-          <div style="margin: 1.5rem 0;">
-            <span style="background: var(--primary-light); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.875rem;">
-              Beginner Friendly
-            </span>
-          </div>
-          <button class="btn-primary start-meditation" data-time="300">
-            🎵 Start Session
-          </button>
+          <span class="session-tag">Beginner Friendly</span>
+          <button class="btn-primary start-meditation" data-time="300" data-audio="morningCalmAudio">🎵 Start Session</button>
         </div>
 
+        <!-- Evening Relax -->
         <div class="meditation-card fade-in">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">🌙</div>
+          <div class="emoji">🌙</div>
           <h3>Evening Relax</h3>
           <p>10-minute meditation to unwind and release the day's stress</p>
-          <div style="margin: 1.5rem 0;">
-            <span style="background: var(--primary-light); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.875rem;">
-              Stress Relief
-            </span>
-          </div>
-          <button class="btn-primary start-meditation" data-time="600">
-            🎵 Start Session
-          </button>
+          <span class="session-tag">Stress Relief</span>
+          <button class="btn-primary start-meditation" data-time="600" data-audio="eveningRelaxAudio">🎵 Start Session</button>
         </div>
 
+        <!-- Focus Boost -->
         <div class="meditation-card fade-in">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">💭</div>
+          <div class="emoji">💭</div>
           <h3>Focus Boost</h3>
           <p>15-minute session to enhance concentration and mental clarity</p>
-          <div style="margin: 1.5rem 0;">
-            <span style="background: var(--primary-light); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.875rem;">
-              Productivity
-            </span>
-          </div>
-          <button class="btn-primary start-meditation" data-time="900">
-            🎵 Start Session
-          </button>
+          <span class="session-tag">Productivity</span>
+          <button class="btn-primary start-meditation" data-time="900" data-audio="focusBoostAudio">🎵 Start Session</button>
         </div>
 
+        <!-- Sleep Well -->
         <div class="meditation-card fade-in">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">😴</div>
+          <div class="emoji">😴</div>
           <h3>Sleep Well</h3>
           <p>20-minute guided meditation for deep relaxation and better sleep</p>
-          <div style="margin: 1.5rem 0;">
-            <span style="background: var(--primary-light); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.875rem;">
-              Sleep Aid
-            </span>
-          </div>
-          <button class="btn-primary start-meditation" data-time="1200">
-            🎵 Start Session
-          </button>
+          <span class="session-tag">Sleep Aid</span>
+          <button class="btn-primary start-meditation" data-time="1200" data-audio="sleepWellAudio">🎵 Start Session</button>
         </div>
       </div>
 
+      <!-- Meditation Timer -->
       <div id="meditationTimer" class="meditation-timer hidden fade-in">
-        <div style="text-align: center;">
-          <div style="font-size: 4rem; margin-bottom: 1rem;">🧘‍♀️</div>
+        <div class="timer-content">
+          <div class="emoji">🧘‍♀️</div>
           <h3>Meditation in Progress</h3>
-          <p style="color: var(--text-light); margin-bottom: 2rem;">Focus on your breath and relax...</p>
-          
-          <div class="timer-display" id="timerDisplay">05:00</div>
-          
+          <p class="tip">Focus on your breath and relax...</p>
+          <div id="timerDisplay" class="timer-display">00:00</div>
           <div class="timer-controls">
-            <button id="pauseMeditation" class="btn-secondary">
-              ⏸️ Pause
-            </button>
-            <button id="stopMeditation" class="btn-primary">
-              ⏹️ Stop
-            </button>
-          </div>
-          
-          <div style="margin-top: 2rem; padding: 1rem; background: var(--bg-light); border-radius: var(--radius);">
-            <p style="margin: 0; font-size: 0.875rem; color: var(--text-light);">
-              💡 Tip: Find a comfortable position and focus on your breathing
-            </p>
+            <button id="pauseMeditation" class="btn-secondary">⏸️ Pause</button>
+            <button id="resumeMeditation" class="btn-secondary hidden">▶️ Resume</button>
+            <button id="restartMeditation" class="btn-primary">🔄 Restart</button>
+            <button id="stopMeditation" class="btn-primary">⏹️ Stop</button>
           </div>
         </div>
       </div>
 
-      <div class="meditation-stats" style="margin-top: 3rem; background: var(--bg-white); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
-        <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">Your Meditation Journey</h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
-          <div style="text-align: center;">
-            <div style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">12</div>
-            <div style="color: var(--text-light); font-size: 0.875rem;">Sessions Completed</div>
-          </div>
-          <div style="text-align: center;">
-            <div style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">3h 45m</div>
-            <div style="color: var(--text-light); font-size: 0.875rem;">Total Time</div>
-          </div>
-          <div style="text-align: center;">
-            <div style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">7</div>
-            <div style="color: var(--text-light); font-size: 0.875rem;">Current Streak</div>
-          </div>
-          <div style="text-align: center;">
-            <div style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">85%</div>
-            <div style="color: var(--text-light); font-size: 0.875rem;">Consistency</div>
-          </div>
-        </div>
-      </div>
+      <!-- Meditation Audio Sources -->
+<!-- Morning Calm Audio -->
+<audio id="morningCalmAudio" loop>
+  <source src="sound/morningCalm.mp3" type="audio/mpeg">
+</audio>
 
-      <audio id="meditationAudio" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-      </audio>
+<!-- Focus Boost Audio -->
+<audio id="focusBoostAudio" loop>
+  <source src="sound/focusBoost.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Sleep Well Audio -->
+<audio id="sleepWellAudio" loop>
+  <source src="sound/sleepWell.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Evening Relax Audio -->
+<audio id="eveningRelaxAudio" loop>
+  <source src="sound/eveningRelax.mp3" type="audio/mpeg">
+</audio>
+
+
     </main>
 
     <footer class="footer">
       <p>&copy; 2024 MindWell. Take care of your mental health.</p>
     </footer>
   </div>
+
   <script src="app.js"></script>
 </body>
 </html>

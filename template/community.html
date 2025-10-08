@@ -29,9 +29,10 @@
 
       <div class="community-editor fade-in">
         <div class="form-group">
-          <label for="communityMessage">Share with the community</label>
+          <label for="postInput">Share with the community</label>
+          <!-- Changed ID to match app.js -->
           <textarea 
-            id="communityMessage" 
+            id="postInput" 
             class="community-textarea" 
             placeholder="What's on your mind? Share your experiences, ask for advice, or offer support..."
             rows="4"
@@ -41,7 +42,8 @@
           <span style="color: var(--text-light); font-size: 0.875rem;">
             💬 Remember to be kind and supportive
           </span>
-          <button id="postMessage" class="btn-primary">
+          <!-- Changed ID to match app.js -->
+          <button id="postBtn" class="btn-primary">
             📤 Post Message
           </button>
         </div>
@@ -100,6 +102,7 @@
       <p>&copy; 2024 MindWell. Take care of your mental health.</p>
     </footer>
   </div>
+
   <script src="app.js"></script>
 </body>
 </html>

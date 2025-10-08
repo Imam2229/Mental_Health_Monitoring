@@ -1,63 +1,69 @@
-
+/* ======================================== */
+/* =============== Root Variables ========== */
+/* ======================================== */
 :root {
-  --primary-color: #4a9c82;
-  --primary-dark: #3a7c68;
-  --primary-light: #6bbaa7;
-  --secondary-color: #6c63ff;
-  --accent-color: #ff6b6b;
-  --text-dark: #2d3748;
-  --text-light: #718096;
-  --bg-light: #f7fafc;
-  --bg-white: #ffffff;
-  --border-color: #e2e8f0;
-  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  --radius: 12px;
-  --transition: all 0.3s ease;
+  --primary-color: #4a9c82; /* Main theme color */
+  --primary-dark: #3a7c68; /* Darker shade of primary color */
+  --primary-light: #6bbaa7; /* Lighter shade of primary color */
+  --secondary-color: #6c63ff; /* Secondary theme color */
+  --accent-color: #ff6b6b; /* Accent color for alerts or highlights */
+  --text-dark: #2d3748; /* Dark text color */
+  --text-light: #718096; /* Light text color */
+  --bg-light: #f7fafc; /* Light background for cards/forms */
+  --bg-white: #ffffff; /* White background */
+  --border-color: #e2e8f0; /* Default border color */
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Default shadow */
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1); /* Large shadow */
+  --radius: 12px; /* Default border radius */
+  --transition: all 0.3s ease; /* Default transition for hover effects */
 }
 
-/* ================= Global Reset & Base Styles ================= */
+/* ======================================== */
+/* =============== Global Styles =========== */
+/* ======================================== */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  box-sizing: border-box; /* Include padding/border in element's total width */
 }
 
 body {
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-  line-height: 1.6;
-  color: var(--text-dark);
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  min-height: 100vh;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; /* Base font */
+  line-height: 1.6; /* Base line height */
+  color: var(--text-dark); /* Default text color */
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Page background gradient */
+  min-height: 100vh; /* Ensure body fills viewport */
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  max-width: 1200px; /* Max width of main container */
+  margin: 0 auto; /* Center container */
+  padding: 0 20px; /* Horizontal padding */
+  min-height: 100vh; /* Full height */
+  display: flex; 
+  flex-direction: column; /* Stack children vertically */
 }
 
-/* ================= Header ================= */
+/* ======================================== */
+/* =============== Header ================== */
+/* ======================================== */
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  position: sticky;
+  display: flex; /* Flex container */
+  justify-content: space-between; /* Space between logo and nav */
+  align-items: center; /* Center vertically */
+  padding: 0.5rem 0; /* Vertical padding */
+  background: rgba(255, 255, 255, 0.95); /* Slightly transparent background */
+  backdrop-filter: blur(10px); /* Blur effect */
+  position: sticky; /* Stick to top */
   top: 0;
-  z-index: 1000;
-  border-bottom: 1px solid var(--border-color);
+  z-index: 1000; /* Ensure above other elements */
+  border-bottom: 1px solid var(--border-color); /* Bottom border */
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.5rem; /* Space between logo elements */
 }
 
 .logo h1 {
@@ -66,13 +72,13 @@ body {
   font-weight: 700;
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent; /* Gradient text */
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 2rem; /* Space between links */
 }
 
 .nav-link {
@@ -82,12 +88,12 @@ body {
   padding: 0.5rem 1rem;
   border-radius: var(--radius);
   transition: var(--transition);
-  position: relative;
+  position: relative; /* For underline effect */
 }
 
 .nav-link:hover {
   color: var(--primary-color);
-  background: rgba(74, 156, 130, 0.1);
+  background: rgba(74, 156, 130, 0.1); /* Hover background */
 }
 
 .nav-link::after {
@@ -95,7 +101,7 @@ body {
   position: absolute;
   bottom: -2px;
   left: 50%;
-  width: 0;
+  width: 0; /* Initial width */
   height: 2px;
   background: var(--primary-color);
   transition: var(--transition);
@@ -103,7 +109,7 @@ body {
 }
 
 .nav-link:hover::after {
-  width: 80%;
+  width: 80%; /* Underline expands on hover */
 }
 
 .btn-login {
@@ -122,7 +128,9 @@ body {
   box-shadow: var(--shadow-lg);
 }
 
-/* ================= Buttons ================= */
+/* ======================================== */
+/* =============== Buttons ================= */
+/* ======================================== */
 .btn-primary {
   background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
   color: white;
@@ -160,10 +168,12 @@ body {
   color: white;
 }
 
-/* ================= Hero Section ================= */
+/* ======================================== */
+/* =============== Hero Section ============ */
+/* ======================================== */
 .hero-section {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr; /* Two columns layout */
   gap: 4rem;
   align-items: center;
   padding: 4rem 0;
@@ -177,7 +187,7 @@ body {
   margin-bottom: 1.5rem;
   background: linear-gradient(135deg, var(--text-dark), var(--primary-color));
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent; /* Gradient text */
 }
 
 .hero-content p {
@@ -189,7 +199,7 @@ body {
 
 .feature-preview {
   display: grid;
-  gap: 1.5rem;
+  gap: 1.5rem; /* Gap between cards */
 }
 
 .preview-card {
@@ -216,7 +226,9 @@ body {
   gap: 0.5rem;
 }
 
-/* ================= Dashboard Styles ================= */
+/* ======================================== */
+/* =============== Dashboard Section ====== */
+/* ======================================== */
 .dashboard-section {
   padding: 2rem 0;
   flex: 1;
@@ -252,7 +264,7 @@ body {
   border: 1px solid var(--border-color);
 }
 
-/* Updated Dashboard Card Specific Styles */
+/* Dashboard Card Specific Styles */
 .card h2 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
@@ -361,7 +373,9 @@ body {
   animation: fadeIn 1s ease-in-out;
 }
 
-/* ================= Journal Styles ================= */
+/* ======================================== */
+/* =============== Journal Section ========= */
+/* ======================================== */
 .journal-section {
   padding: 2rem 0;
   flex: 1;
@@ -447,92 +461,166 @@ body {
   line-height: 1.6;
 }
 
-/* ================= Meditation Styles ================= */
+/* ======================================== */
+/* =============== Meditation Section ====== */
+/* ======================================== */
+
+/* Main container for the meditation section */
 .meditation-section {
-  padding: 2rem 0;
-  flex: 1;
+  padding: 2rem 0; /* Top and bottom padding */
+  flex: 1; /* Allow section to grow */
 }
 
+/* Header area of the meditation section */
 .meditation-header {
-  margin-bottom: 2rem;
+  margin-bottom: 2rem; /* Space below header */
+  text-align: center; /* Center-align heading and description */
 }
 
 .meditation-header h2 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 2.5rem; /* Heading size */
+  margin-bottom: 0.5rem; /* Space below heading */
+  color: var(--text-dark); /* Dark text color */
 }
 
 .meditation-header p {
-  color: var(--text-light);
-  font-size: 1.1rem;
+  color: var(--text-light); /* Light text color */
+  font-size: 1.1rem; /* Paragraph size */
 }
 
+/* Grid layout for meditation cards */
 .meditation-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+  gap: 2rem; /* Gap between cards */
+  margin-bottom: 3rem; /* Space below the grid */
 }
 
+/* Individual meditation card */
 .meditation-card {
-  background: var(--bg-white);
-  border-radius: var(--radius);
-  padding: 2rem;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border-color);
-  text-align: center;
-  transition: var(--transition);
+  background: var(--bg-white); /* White background */
+  border-radius: var(--radius); /* Rounded corners */
+  padding: 2rem; /* Inner padding */
+  box-shadow: var(--shadow); /* Subtle shadow */
+  border: 1px solid var(--border-color); /* Light border */
+  text-align: center; /* Center content */
+  transition: var(--transition); /* Smooth hover transitions */
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  justify-content: space-between; /* Evenly space heading, text, and button */
 }
 
+/* Hover effect for each card */
 .meditation-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: var(--shadow-lg); /* Bigger shadow on hover */
 }
 
+/* Card heading */
 .meditation-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: var(--primary-color);
+  font-size: 1.5rem; /* Heading size */
+  margin-bottom: 1rem; /* Space below heading */
+  color: var(--primary-color); /* Primary theme color */
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.5rem; /* Space between icon and text */
 }
 
+/* Card description text */
 .meditation-card p {
-  color: var(--text-light);
-  margin-bottom: 1.5rem;
+  color: var(--text-light); /* Lighter text color */
+  margin-bottom: 1.5rem; /* Space below text */
+  flex-grow: 1; /* Make text fill space for equal height cards */
+  line-height: 1.5; /* Improve readability */
 }
 
-.meditation-timer {
-  background: var(--bg-white);
+/* Optional button inside the card (like "Start") */
+.meditation-card .btn-start {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
   border-radius: var(--radius);
-  padding: 3rem;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border-color);
-  text-align: center;
-  margin-top: 2rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+  margin-top: auto; /* Stick button to bottom of card */
 }
 
+.meditation-card .btn-start:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Meditation timer section */
+.meditation-timer {
+  background: var(--bg-white); /* White background */
+  border-radius: var(--radius); /* Rounded corners */
+  padding: 3rem; /* Inner padding */
+  box-shadow: var(--shadow); /* Shadow */
+  border: 1px solid var(--border-color); /* Border */
+  text-align: center;
+  margin-top: 2rem; /* Space from above content */
+}
+
+/* Timer display text */
 .timer-display {
-  font-size: 4rem;
+  font-size: 4rem; /* Large font for timer */
   font-weight: 700;
   color: var(--primary-color);
   margin: 2rem 0;
-  font-family: 'Courier New', monospace;
+  font-family: 'Courier New', monospace; /* Monospaced font */
 }
 
+/* Timer buttons (start/pause/reset) */
 .timer-controls {
   display: flex;
-  gap: 1rem;
-  justify-content: center;
+  gap: 1rem; /* Space between buttons */
+  justify-content: center; /* Center buttons */
 }
 
+/* Utility class to hide elements */
 .hidden {
   display: none;
 }
 
-/* ================= Community Styles ================= */
+/* ================= Responsive Styles for Meditation Section ================= */
+@media (max-width: 768px) {
+  .meditation-grid {
+    grid-template-columns: 1fr; /* Stack cards on mobile */
+    gap: 1.5rem; /* Reduce gap */
+  }
+
+  .meditation-header h2 {
+    font-size: 2rem; /* Reduce heading size */
+  }
+
+  .meditation-card {
+    padding: 1.5rem; /* Less padding on mobile */
+  }
+
+  .meditation-card p {
+    margin-bottom: 1rem; /* Reduce text spacing */
+  }
+
+  .meditation-timer {
+    padding: 2rem; /* Reduce timer padding */
+  }
+
+  .timer-display {
+    font-size: 3rem; /* Smaller timer on mobile */
+  }
+}
+
+/* ======================================== */
+/* End of Meditation Section CSS */
+/* ======================================== */
+
+
+/* ======================================== */
+/* =============== Community Section ====== */
+/* ======================================== */
 .community-section {
   padding: 2rem 0;
   flex: 1;
@@ -629,7 +717,9 @@ body {
   line-height: 1.6;
 }
 
-/* ================= Export Styles ================= */
+/* ======================================== */
+/* =============== Export Section ========= */
+/* ======================================== */
 .export-section {
   padding: 2rem 0;
   flex: 1;
@@ -685,7 +775,9 @@ body {
   margin-bottom: 1.5rem;
 }
 
-/* ================= Auth Pages (Login / Signup) ================= */
+/* ======================================== */
+/* =============== Auth Pages (Login / Signup) ====== */
+/* ======================================== */
 .login-section, .signup-section {
   display: flex;
   align-items: center;
@@ -774,7 +866,9 @@ body {
   text-decoration: underline;
 }
 
-/* ================= Footer ================= */
+/* ======================================== */
+/* =============== Footer ================== */
+/* ======================================== */
 .footer {
   text-align: center;
   padding: 0.7rem 0;
@@ -784,7 +878,9 @@ body {
   background: rgba(255, 255, 255, 0.8);
 }
 
-/* ================= Responsive Design ================= */
+/* ======================================== */
+/* =============== Responsive Design ======= */
+/* ======================================== */
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
@@ -820,7 +916,9 @@ body {
   }
 }
 
-/* ================= Animations ================= */
+/* ======================================== */
+/* =============== Animations ============= */
+/* ======================================== */
 .fade-in {
   animation: fadeIn 0.5s ease-in;
 }
@@ -845,13 +943,17 @@ body {
   }
 }
 
-/* ================= Loading States ================= */
+/* ======================================== */
+/* =============== Loading States ========= */
+/* ======================================== */
 .loading {
   opacity: 0.7;
   pointer-events: none;
 }
 
-/* ================= Success/Error States ================= */
+/* ======================================== */
+/* =============== Success/Error States ==== */
+/* ======================================== */
 .success-message {
   background: #d4edda;
   color: #155724;
@@ -870,6 +972,59 @@ body {
   border: 1px solid #f5c6cb;
 }
 
+
 /* ======================================== */
-/* End of style.css - 821 lines */
+/* ========== Dashboard Mood Submission Squares (LeetCode style) ========== */
+/* ======================================== */
+
+.mood-submissions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.mood-submission {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background-color: #e2e8f0;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.mood-submission:hover {
+  transform: scale(1.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.mood-happy { background-color: #4a9c82; }
+.mood-sad { background-color: #718096; }
+.mood-stressed { background-color: #ff6b6b; }
+.mood-neutral { background-color: #6c63ff; }
+
+.mood-submission::after {
+  content: attr(data-mood);
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-dark);
+  color: white;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+.mood-submission:hover::after {
+  opacity: 1;
+}
+
+
+/* ======================================== */
+/* End of style.css - Fully Annotated       */
 /* ======================================== */

@@ -22,11 +22,12 @@
     </header>
 
     <main class="journal-section">
-      <div class="journal-header">
+      <div class="journal-header fade-in">
         <h2>Daily Journal</h2>
         <p>Reflect on your thoughts and moods to track your mental health journey.</p>
       </div>
 
+      <!-- Journal Editor -->
       <div class="journal-editor fade-in">
         <div class="form-group">
           <label for="journalEntry">Today's Reflection</label>
@@ -38,17 +39,14 @@
           ></textarea>
         </div>
         <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-          <button id="saveEntry" class="btn-primary">
-            💾 Save Entry
-          </button>
-          <button id="clearEntry" class="btn-secondary">
-            🗑️ Clear
-          </button>
+          <button id="saveEntry" class="btn-primary">💾 Save Entry</button>
+          <button id="clearEntry" class="btn-secondary">🗑️ Clear</button>
         </div>
       </div>
 
+      <!-- Recent Entries -->
       <div class="journal-entries fade-in">
-        <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
           <h3>Recent Entries</h3>
           <span class="entry-count" style="color: var(--text-light); font-size: 0.875rem;">
             <span id="entriesCount">0</span> entries
@@ -56,9 +54,9 @@
         </div>
         
         <ul id="entriesList" class="entries-list">
-          <!-- Entries will be loaded dynamically -->
+          <!-- Entries loaded dynamically by app.js -->
         </ul>
-        
+
         <div id="emptyState" class="empty-state" style="text-align: center; padding: 3rem; color: var(--text-light);">
           <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
           <h3 style="margin-bottom: 0.5rem; color: var(--text-light);">No journal entries yet</h3>
@@ -71,6 +69,8 @@
       <p>&copy; 2024 MindWell. Take care of your mental health.</p>
     </footer>
   </div>
+
+  <!-- App JS -->
   <script src="app.js"></script>
 </body>
 </html>
