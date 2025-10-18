@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal - MindWell</title>
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo"><h1>🌱 MindWell</h1></div>
+      <nav class="nav">
+        <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+        <a href="{{ url_for('meditation') }}" class="nav-link">Meditation</a>
+        <a href="{{ url_for('export') }}" class="nav-link">Export</a>
+        <a href="{{ url_for('community') }}" class="nav-link">Community</a>
+        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+      </nav>
+    </header>
+
+    <main class="journal-section">
+      <div class="journal-header fade-in">
+        <h2>Daily Journal</h2>
+        <p>Reflect on your thoughts and moods to track your mental health journey.</p>
+      </div>
+
+      <!-- Journal Editor Form -->
+      <form id="journalForm" class="journal-editor fade-in">
+        <div class="form-group">
+          <label for="journalEntry">Today's Reflection</label>
+          <textarea 
+            id="journalEntry" 
+            class="journal-textarea" 
+            placeholder="How are you feeling today? What's on your mind? What are you grateful for?..."
+            rows="8"
+            required
+          ></textarea>
+        </div>
+        <div class="journal-buttons">
+          <button type="submit" class="btn-primary">💾 Save Entry</button>
+          <button type="button" id="clearEntry" class="btn-secondary">🗑️ Clear</button>
+        </div>
+      </form>
+
+      <!-- Recent Entries -->
+      <div class="journal-entries fade-in">
+        <div class="journal-entries-header">
+          <h3>Recent Entries</h3>
+          <span class="entry-count">
+            <span id="entriesCount">0</span> entries
+          </span>
+        </div>
+        
+        <ul id="entriesList" class="entries-list">
+          <!-- Entries loaded dynamically via JS/backend -->
+        </ul>
+
+        <div id="emptyState" class="empty-state">
+          <div class="empty-icon">📝</div>
+          <h3>No journal entries yet</h3>
+          <p>Start writing to begin your mental health journey.</p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2025 MindWell. Take care of your mental health.</p>
+    </footer>
+  </div>
+
+  <!-- JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const journalForm = document.getElementById('journalForm');
+      const journalEntry = document.getElementById('journalEntry');
+      const entriesList = document.getElementById('entriesList');
+      const entriesCount = document.getElementById('entriesCount');
+      const emptyState = document.getElementById('emptyState');
+      const clearEntryBtn = document.getElementById('clearEntry');
+
+      // Load entries from localStorage
+      let entries = JSON.parse(localStorage.getItem('journalEntries')) || [];
+      updateEntriesUI();
+
+      // Save new entry
+      journalForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const entryText = journalEntry.value.trim();
+        if(entryText === '') return;
+
+        const newEntry = {
+          id: Date.now(), // unique ID for deletion
+          content: entryText,
+          timestamp: new Date().toLocaleString()
+        };
+        entries.unshift(newEntry); // add newest first
+        localStorage.setItem('journalEntries', JSON.stringify(entries));
+        journalEntry.value = '';
+        updateEntriesUI();
+      });
+
+      // Clear entry textarea
+      clearEntryBtn.addEventListener('click', () => {
+        journalEntry.value = '';
+      });
+
+      // Delete individual entry
+      function deleteEntry(id) {
+        entries = entries.filter(entry => entry.id !== id);
+        localStorage.setItem('journalEntries', JSON.stringify(entries));
+        updateEntriesUI();
+      }
+
+      // Update entries in UI
+      function updateEntriesUI() {
+        entriesList.innerHTML = '';
+        if(entries.length === 0) {
+          emptyState.style.display = 'block';
+        } else {
+          emptyState.style.display = 'none';
+          entries.forEach(entry => {
+            const li = document.createElement('li');
+            li.classList.add('entry-item');
+            li.innerHTML = `
+              <strong>${entry.timestamp}</strong>: ${entry.content}
+              <button class="delete-btn" onclick="deleteEntry(${entry.id})">🗑️</button>
+            `;
+            entriesList.appendChild(li);
+          });
+        }
+        entriesCount.textContent = entries.length;
+      }
+
+      // Expose deleteEntry globally so onclick can access
+      window.deleteEntry = deleteEntry;
+    });
+  </script>
+</body>
+</html>

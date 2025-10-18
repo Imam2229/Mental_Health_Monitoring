@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community - MindWell</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Flash messages */
+.flash-messages {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 15px;
+}
+.flash-messages li {
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.success { background-color: rgba(74, 156, 130, 0.85); }
+.error { background-color: rgba(255, 99, 71, 0.85); }
+</style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo"><h1>🌱 MindWell</h1></div>
+      <nav class="nav">
+        <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+        <a href="{{ url_for('meditation') }}" class="nav-link">Meditation</a>
+        <a href="{{ url_for('journal') }}" class="nav-link">Journal</a>
+        <a href="{{ url_for('export') }}" class="nav-link">Export</a>
+        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+      </nav>
+    </header>
+
+    <main class="community-section">
+        <div class="community-header">
+            <h2>Community Support</h2>
+            <p>Share your thoughts, support others, and connect with people on similar journeys.</p>
+        </div>
+
+        <!-- Flash messages -->
+        <ul id="flashMessages" class="flash-messages" style="display:none;"></ul>
+
+        <!-- Post Editor -->
+        <div class="community-editor fade-in">
+            <form id="communityForm">
+                <div class="form-group">
+                    <label for="postInput">Share with the community</label>
+                    <textarea id="postInput" class="community-textarea" placeholder="What's on your mind?" rows="4" required></textarea>
+                </div>
+                <div class="editor-footer" style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem;">
+                    <span class="editor-note" style="color: var(--text-light); font-size: 0.875rem;">💬 Remember to be kind and supportive</span>
+                    <button type="submit" class="btn-primary">📤 Post Message</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Posts List -->
+        <div class="posts-container fade-in">
+            <div class="posts-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                <h3>Recent Community Posts</h3>
+                <div style="display:flex; gap:0.5rem;">
+                    <button id="sortRecent" class="btn-secondary" style="padding:0.5rem 1rem; font-size:0.875rem;">🔄 Newest</button>
+                    <button id="sortPopular" class="btn-secondary" style="padding:0.5rem 1rem; font-size:0.875rem;">🔥 Popular</button>
+                </div>
+            </div>
+            <ul id="postsList" class="posts-list">
+                {% if posts %}
+                    {% for post in posts %}
+                        <li class="post-item"><strong>{{ post.name }}</strong>: {{ post.content }}</li>
+                    {% endfor %}
+                {% else %}
+                    <div id="emptyCommunity" style="text-align:center; padding:3rem; color: var(--text-light);">
+                        <div style="font-size:3rem; margin-bottom:1rem;">👥</div>
+                        <h3 style="margin-bottom:0.5rem;">No posts yet</h3>
+                        <p>Be the first to share something!</p>
+                    </div>
+                {% endif %}
+            </ul>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 MindWell. Take care of your mental health.</p>
+    </footer>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('communityForm');
+    const postInput = document.getElementById('postInput');
+    const postsList = document.getElementById('postsList');
+    const flash = document.getElementById('flashMessages');
+
+    function showFlash(message, category) {
+        flash.innerHTML = `<li class="${category}">${message}</li>`;
+        flash.style.display = 'block';
+        setTimeout(() => { flash.style.display = 'none'; }, 3000);
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const content = postInput.value.trim();
+        if (!content) return showFlash('Please enter a message.', 'error');
+
+        try {
+            const res = await fetch('/community', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                showFlash('Post added successfully!', 'success');
+                const li = document.createElement('li');
+                li.className = 'post-item';
+                li.innerHTML = `<strong>${data.post.name}</strong>: ${data.post.content}`;
+                postsList.prepend(li);
+                postInput.value = '';
+                document.getElementById('emptyCommunity')?.remove();
+            } else {
+                showFlash(data.message || 'Failed to add post.', 'error');
+            }
+        } catch (err) {
+            console.error('Error posting:', err);
+            showFlash('Server error. Try again later.', 'error');
+        }
+    });
+});
+</script>
+</body>
+</html>

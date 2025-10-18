@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindWell Dashboard</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  
+  <style>
+    .dashboard-section { padding: 2rem; }
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
+    .dashboard-card { background: rgba(255,255,255,0.95); padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    .mood-selector, .journal-textarea { width: 100%; padding: 0.5rem; margin-top: 0.5rem; border-radius: 8px; border: 1px solid #ccc; }
+    .btn-primary { padding: 0.5rem 1rem; background: #4a9c82; color: #fff; border: none; border-radius: 8px; cursor: pointer; margin-top: 0.5rem; }
+    .btn-primary:hover { background: #36755d; }
+    .mood-submissions { margin-top: 1rem; max-height: 200px; overflow-y: auto; border-top: 1px solid #ccc; padding-top: 1rem; }
+    .mood-entry { padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+    .chart-container { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo"><h1>🌱 MindWell</h1></div>
+      <nav class="nav">
+        <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+        <a href="{{ url_for('journal') }}" class="nav-link">Journal</a>
+        <a href="{{ url_for('meditation') }}" class="nav-link">Meditation</a>
+        <a href="{{ url_for('community') }}" class="nav-link">Community</a>
+        <a href="{{ url_for('export') }}" class="nav-link">Export</a>
+        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+      </nav>
+    </header>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-section">
+      <div class="dashboard-header">
+        <h2>Welcome, {{ session['name'] }}!</h2>
+        <p>Track your mood and get daily insights.</p>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Mood Tracker Card -->
+        <div class="dashboard-card">
+          <h3>Mood Tracker</h3>
+
+          <form id="moodForm">
+            <label for="moodSelector">Select Your Mood:</label>
+            <select id="moodSelector" name="mood" class="mood-selector" required>
+              <option value="">Select Mood</option>
+              <option value="Happy">Happy</option>
+              <option value="Sad">Sad</option>
+              <option value="Stressed">Stressed</option>
+              <option value="Neutral">Neutral</option>
+            </select>
+
+            <label for="moodDescription">Mood Description:</label>
+            <textarea id="moodDescription" name="description" class="journal-textarea" placeholder="How are you feeling today?" rows="3"></textarea>
+
+            <button type="submit" class="btn-primary">Submit Mood</button>
+          </form>
+
+          <p id="recommendation" style="margin-top:1rem; font-weight:500; color:#4a9c82;">Your recommendation will appear here.</p>
+
+          <!-- Mood Submission Count -->
+          <p class="dashboard-stats">You have submitted <span id="moodCount">{{ mood_entries|length }}</span> moods so far.</p>
+
+          <!-- Mood Submissions List -->
+          <div id="moodSubmissions" class="mood-submissions">
+            {% if mood_entries %}
+              {% for entry in mood_entries %}
+                <div class="mood-entry">
+                  <strong>{{ entry.mood }}</strong> - {{ entry.description }}
+                </div>
+              {% endfor %}
+            {% else %}
+              <p id="noMoodsMsg" style="color: #666;">No mood entries yet. Start by submitting your mood!</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Weekly Mood Chart -->
+        <div class="dashboard-card">
+          <h3>Weekly Mood Chart</h3>
+          <div class="chart-container">
+            <canvas id="weeklyChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" style="text-align:center; margin-top:2rem;">
+      &copy; 2025 MindWell. Take care of your mental health.
+    </footer>
+  </div>
+
+  <!-- Pass mood entries to JS -->
+  <script type="application/json" id="moodData">
+      {{ mood_entries|tojson }}
+  </script>
+
+  <!-- Dashboard JavaScript -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+      const moodSelector = document.getElementById('moodSelector');
+      const moodDescription = document.getElementById('moodDescription');
+      const recommendation = document.getElementById('recommendation');
+      const moodForm = document.getElementById('moodForm');
+      const moodSubmissions = document.getElementById('moodSubmissions');
+      const moodCount = document.getElementById('moodCount');
+
+      // Recommendation map
+      const recMap = {
+          Happy: "Keep up the positive vibes! 🌞",
+          Sad: "Take a deep breath and do something you enjoy. 🌷",
+          Stressed: "Try a short meditation or walk to relax. 🧘‍♂️",
+          Neutral: "Maintain balance and reflect on today's moments. 🌿"
+      };
+
+      moodSelector.addEventListener('change', () => {
+          const mood = moodSelector.value;
+          recommendation.textContent = recMap[mood] || '';
+      });
+
+      // Initialize Chart.js
+      const ctx = document.getElementById('weeklyChart').getContext('2d');
+      let moodsData = JSON.parse(document.getElementById('moodData').textContent || '[]');
+
+      const moodCounts = () => {
+          const counts = { Happy: 0, Sad: 0, Stressed: 0, Neutral: 0 };
+          moodsData.forEach(entry => {
+              if(counts[entry.mood] !== undefined) counts[entry.mood]++;
+          });
+          return counts;
+      }
+
+      let chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: Object.keys(moodCounts()),
+              datasets: [{
+                  label: 'Mood Count',
+                  data: Object.values(moodCounts()),
+                  backgroundColor: ['#4a9c82', '#ff6371', '#f4b400', '#999']
+              }]
+          },
+          options: {
+              responsive: true,
+              plugins: { legend: { display: false } },
+              scales: { y: { beginAtZero: true, stepSize: 1 } }
+          }
+      });
+
+      // AJAX Mood Submission
+      moodForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const mood = moodSelector.value;
+          const description = moodDescription.value;
+
+          if (!mood) return alert("Please select a mood!");
+
+          const res = await fetch("/api/mood", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ mood, description })
+          });
+
+          const data = await res.json();
+          if (data.success) {
+              // Add new entry to list
+              const div = document.createElement("div");
+              div.className = "mood-entry";
+              div.innerHTML = `<strong>${mood}</strong> - ${description || ''}`;
+              moodSubmissions.prepend(div);
+
+              // Update count
+              moodCount.textContent = parseInt(moodCount.textContent) + 1;
+
+              // Clear form
+              moodSelector.value = "";
+              moodDescription.value = "";
+              recommendation.textContent = "";
+
+              // Update chart
+              moodsData.unshift({ mood, description });
+              const counts = moodCounts();
+              chart.data.datasets[0].data = Object.values(counts);
+              chart.update();
+          } else {
+              alert("Failed to submit mood. Try again.");
+          }
+      });
+
+      // Auto-scroll to latest entry
+      if(moodSubmissions) moodSubmissions.scrollTop = 0;
+  });
+  </script>
+</body>
+</html>

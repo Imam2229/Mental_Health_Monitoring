@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindWell - Mental Health Monitoring</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- JS -->
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo"><h1>🌱 MindWell</h1></div>
+      <nav class="nav">
+        <a href="{{ url_for('login') }}" class="btn-login">Login</a>
+        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+        <a href="{{ url_for('meditation') }}" class="nav-link">Meditation</a>
+        <a href="{{ url_for('journal') }}" class="nav-link">Journal</a>
+        <a href="{{ url_for('export') }}" class="nav-link">Export</a>
+        <a href="{{ url_for('community') }}" class="nav-link">Community</a>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="hero-section">
+      <div class="hero-content">
+        <h2>Track Your Mood, Improve Your Well-being</h2>
+        <p>Monitor your emotional health with daily check-ins, visualize your progress, and get personalized recommendations. Join thousands on their mental wellness journey.</p>
+        <a href="{{ url_for('signup') }}" class="btn-primary">Start Your Journey</a>
+      </div>
+
+      <div class="hero-image">
+        <div class="preview-card">📊<h3>Mood Tracking</h3><p>Daily emotional check-ins with detailed analytics</p></div>
+        <div class="preview-card">📈<h3>Progress Charts</h3><p>Visualize your mental health journey over time</p></div>
+        <div class="preview-card">💡<h3>Smart Insights</h3><p>Personalized recommendations based on your patterns</p></div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2025 MindWell. Take care of your mental health.</p>
+    </footer>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Animate preview cards on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.preview-card');
+      cards.forEach((card, index) => {
+        card.style.opacity = 0;
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          card.style.transition = 'all 0.6s ease';
+          card.style.opacity = 1;
+          card.style.transform = 'translateY(0)';
+        }, index * 150);
+      });
+    });
+
+    // Optional: Smooth scroll for anchor links
+    document.querySelectorAll('a.nav-link, .btn-primary').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const target = document.querySelector(link.getAttribute('href'));
+        if(target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

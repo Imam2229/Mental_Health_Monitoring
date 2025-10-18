@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Export Data - MindWell</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- jsPDF for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo"><h1>🌱 MindWell</h1></div>
+      <nav class="nav">
+        <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+        <a href="{{ url_for('meditation') }}" class="nav-link">Meditation</a>
+        <a href="{{ url_for('journal') }}" class="nav-link">Journal</a>
+        <a href="{{ url_for('community') }}" class="nav-link">Community</a>
+        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+      </nav>
+    </header>
+
+    <!-- Export Section -->
+    <main class="export-section">
+      <div class="export-header">
+        <h2>Export Your Data</h2>
+        <p>Download your mental health journey for personal records or healthcare sharing.</p>
+      </div>
+
+      <div class="export-grid">
+        <!-- TXT Export -->
+        <div class="export-card fade-in">
+          <div class="export-icon">📄</div>
+          <h3>Text Format</h3>
+          <p>Simple text file with all your journal entries and mood data</p>
+          <button id="exportTxt" class="btn-primary">📥 Download TXT</button>
+        </div>
+
+        <!-- CSV Export -->
+        <div class="export-card fade-in">
+          <div class="export-icon">📊</div>
+          <h3>CSV Format</h3>
+          <p>Spreadsheet-friendly format for data analysis and visualization</p>
+          <button id="exportCsv" class="btn-primary">📥 Download CSV</button>
+        </div>
+
+        <!-- PDF Export -->
+        <div class="export-card fade-in">
+          <div class="export-icon">📋</div>
+          <h3>PDF Report</h3>
+          <p>Beautiful formatted report with charts and insights</p>
+          <button id="exportPdf" class="btn-primary">📥 Generate PDF</button>
+        </div>
+      </div>
+
+      <!-- Data Summary -->
+      <div class="export-stats">
+        <h3>Your Data Summary</h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div id="totalEntries">0</div>
+            <span>Journal Entries</span>
+          </div>
+          <div class="stat-item">
+            <div id="totalMoods">0</div>
+            <span>Mood Records</span>
+          </div>
+          <div class="stat-item">
+            <div id="avgMood">0</div>
+            <span>Average Mood</span>
+          </div>
+          <div class="stat-item">
+            <div id="dataSince">-</div>
+            <span>Tracking Since</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="export-notice">
+        <p>🔒 Your data is stored securely. Exports are personal and never shared with third parties.</p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      &copy; 2025 MindWell. Take care of your mental health.
+    </footer>
+  </div>
+
+  <!-- Pass data safely via JSON -->
+  <script type="application/json" id="exportData">
+    {
+      "moods": {{ mood_entries|tojson }},
+      "journals": {{ journal_entries|tojson }},
+      "meditations": {{ meditation_entries|tojson }}
+    }
+  </script>
+
+  <!-- Export JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const data = JSON.parse(document.getElementById('exportData').textContent);
+
+      const exportTxtBtn = document.getElementById('exportTxt');
+      const exportCsvBtn = document.getElementById('exportCsv');
+      const exportPdfBtn = document.getElementById('exportPdf');
+
+      const totalEntriesEl = document.getElementById('totalEntries');
+      const totalMoodsEl = document.getElementById('totalMoods');
+      const avgMoodEl = document.getElementById('avgMood');
+      const dataSinceEl = document.getElementById('dataSince');
+
+      // Update stats
+      totalEntriesEl.textContent = data.journals.length;
+      totalMoodsEl.textContent = data.moods.length;
+
+      const moodValues = data.moods.map(m => {
+        switch(m.mood) {
+          case "Happy": return 4;
+          case "Neutral": return 3;
+          case "Stressed": return 2;
+          case "Sad": return 1;
+          default: return 0;
+        }
+      });
+      avgMoodEl.textContent = moodValues.length ? (moodValues.reduce((a,b)=>a+b,0)/moodValues.length).toFixed(2) : 0;
+
+      if (data.journals.length) {
+        dataSinceEl.textContent = new Date(data.journals[0].timestamp || data.journals[0].date).toLocaleDateString();
+      }
+
+      // TXT Export
+      exportTxtBtn.addEventListener('click', () => {
+        let content = "MindWell Journal & Mood Data\n\n";
+        content += "Journal Entries:\n";
+        data.journals.forEach(j => content += `- ${j.timestamp || j.date}: ${j.entry || j.content}\n`);
+        content += "\nMood Entries:\n";
+        data.moods.forEach(m => content += `- ${m.timestamp || m.date}: ${m.mood} - ${m.description}\n`);
+
+        const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "mindwell_export.txt";
+        link.click();
+      });
+
+      // CSV Export
+      exportCsvBtn.addEventListener('click', () => {
+        let csv = "Type,Date,Title/Description,Mood\n";
+        data.journals.forEach(j => csv += `Journal,${j.timestamp || j.date},${j.entry || j.content},\n`);
+        data.moods.forEach(m => csv += `Mood,${m.timestamp || m.date},${m.description},${m.mood}\n`);
+
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "mindwell_export.csv";
+        link.click();
+      });
+
+      // PDF Export
+      exportPdfBtn.addEventListener('click', () => {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        let y = 10;
+
+        doc.setFontSize(14);
+        doc.text("MindWell Journal & Mood Data", 10, y);
+        y += 10;
+
+        doc.setFontSize(12);
+        doc.text("Journal Entries:", 10, y);
+        y += 8;
+        data.journals.forEach(j => {
+          doc.text(`- ${j.timestamp || j.date}: ${j.entry || j.content}`, 10, y);
+          y += 6;
+          if (y > 280) { doc.addPage(); y = 10; }
+        });
+
+        y += 4;
+        doc.text("Mood Entries:", 10, y);
+        y += 8;
+        data.moods.forEach(m => {
+          doc.text(`- ${m.timestamp || m.date}: ${m.mood} - ${m.description}`, 10, y);
+          y += 6;
+          if (y > 280) { doc.addPage(); y = 10; }
+        });
+
+        doc.save("mindwell_export.pdf");
+      });
+    });
+  </script>
+</body>
+</html>
