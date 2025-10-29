@@ -31,6 +31,8 @@ def login_required(f):
 # ------------------ Home ------------------
 @app.route('/')
 def index():
+    if 'email' in session:
+        return redirect(url_for('dashboard'))
     return render_template('index.html')
 
 # ------------------ Signup ------------------
@@ -239,6 +241,7 @@ def forgot_password():
             return jsonify({"success": True, "message": "Password reset link sent."})
         return jsonify({"success": False, "message": "Email not found."})
     return render_template('forgot-password.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -3,77 +3,248 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MindWell - Mental Health Monitoring</title>
-
-  <!-- CSS -->
+  <title>MindWell - Your Mental Health Companion</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ====== General ====== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
 
-  <!-- JS -->
-  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+    body {
+      background: linear-gradient(to bottom right, #dff1f3, #f7fdfd);
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 60px;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      color: #007b83;
+      letter-spacing: 1px;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #007b83;
+    }
+
+    /* ====== Hero Section ====== */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 80px 60px;
+      flex-wrap: wrap;
+    }
+
+    .hero-content {
+      flex: 1;
+      min-width: 320px;
+      padding-right: 40px;
+    }
+
+    .hero-content h2 {
+      font-size: 2.8rem;
+      color: #004d4f;
+      margin-bottom: 15px;
+    }
+
+    .hero-content p {
+      font-size: 1.1rem;
+      color: #444;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .hero-content .btn-group a {
+      text-decoration: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin-right: 10px;
+    }
+
+    .btn-primary {
+      background: #007b83;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #009ea7;
+    }
+
+    .btn-secondary {
+      border: 2px solid #007b83;
+      color: #007b83;
+    }
+
+    .btn-secondary:hover {
+      background: #007b83;
+      color: #fff;
+    }
+
+    .hero-image {
+      flex: 1;
+      min-width: 320px;
+      text-align: center;
+    }
+
+    .hero-image img {
+      width: 85%;
+      max-width: 500px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ====== Features ====== */
+    .features {
+      background-color: #fff;
+      padding: 80px 60px;
+      text-align: center;
+    }
+
+    .features h3 {
+      font-size: 2rem;
+      color: #004d4f;
+      margin-bottom: 40px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: #f8fdfd;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .feature-card h4 {
+      color: #007b83;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+
+    .feature-card p {
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    /* ====== Footer ====== */
+    footer {
+      background-color: #004d4f;
+      color: #fff;
+      text-align: center;
+      padding: 30px 10px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-content {
+        padding-right: 0;
+      }
+
+      .hero-image img {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <div class="container">
-    <!-- Header -->
-    <header class="header">
-      <div class="logo"><h1>🌱 MindWell</h1></div>
-      <nav class="nav">
-        <a href="{{ url_for('login') }}" class="btn-login">Login</a>
-        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
-        <a href="{{ url_for('meditation') }}" class="nav-link">Meditation</a>
-        <a href="{{ url_for('journal') }}" class="nav-link">Journal</a>
-        <a href="{{ url_for('export') }}" class="nav-link">Export</a>
-        <a href="{{ url_for('community') }}" class="nav-link">Community</a>
-      </nav>
-    </header>
+  <!-- ====== Header ====== -->
+  <header>
+    <h1>MindWell</h1>
+    <nav>
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('login') }}">Login</a>
+      <a href="{{ url_for('signup') }}">Sign Up</a>
+    </nav>
+  </header>
 
-    <!-- Hero Section -->
-    <main class="hero-section">
-      <div class="hero-content">
-        <h2>Track Your Mood, Improve Your Well-being</h2>
-        <p>Monitor your emotional health with daily check-ins, visualize your progress, and get personalized recommendations. Join thousands on their mental wellness journey.</p>
-        <a href="{{ url_for('signup') }}" class="btn-primary">Start Your Journey</a>
+  <!-- ====== Hero Section ====== -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Empower Your Mind, Every Day 🌱</h2>
+      <p>
+        MindWell helps you track your mood, reflect through journaling, meditate,
+        and connect with a supportive community — all in one place.
+      </p>
+      <div class="btn-group">
+        <a href="{{ url_for('signup') }}" class="btn-primary">Get Started</a>
+        <a href="{{ url_for('login') }}" class="btn-secondary">Login</a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <img src="{{ url_for('static', filename='images/hero-mental-health.jpg') }}" alt="MindWell Hero">
+    </div>
+  </section>
+
+  <!-- ====== Features Section ====== -->
+  <section class="features">
+    <h3>Everything You Need for Mental Wellness</h3>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>🧠 Mood Tracking</h4>
+        <p>Record how you feel daily and identify patterns that impact your wellbeing.</p>
       </div>
 
-      <div class="hero-image">
-        <div class="preview-card">📊<h3>Mood Tracking</h3><p>Daily emotional check-ins with detailed analytics</p></div>
-        <div class="preview-card">📈<h3>Progress Charts</h3><p>Visualize your mental health journey over time</p></div>
-        <div class="preview-card">💡<h3>Smart Insights</h3><p>Personalized recommendations based on your patterns</p></div>
+      <div class="feature-card">
+        <h4>📔 Journaling</h4>
+        <p>Write down your thoughts and experiences to reflect and grow emotionally.</p>
       </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-      <p>&copy; 2025 MindWell. Take care of your mental health.</p>
-    </footer>
-  </div>
+      <div class="feature-card">
+        <h4>🧘 Meditation</h4>
+        <p>Relax and refocus your mind with guided meditation sessions.</p>
+      </div>
 
-  <!-- JavaScript -->
-  <script>
-    // Animate preview cards on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      const cards = document.querySelectorAll('.preview-card');
-      cards.forEach((card, index) => {
-        card.style.opacity = 0;
-        card.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-          card.style.transition = 'all 0.6s ease';
-          card.style.opacity = 1;
-          card.style.transform = 'translateY(0)';
-        }, index * 150);
-      });
-    });
+      <div class="feature-card">
+        <h4>🤝 Community</h4>
+        <p>Share your journey and support others in the MindWell community.</p>
+      </div>
+    </div>
+  </section>
 
-    // Optional: Smooth scroll for anchor links
-    document.querySelectorAll('a.nav-link, .btn-primary').forEach(link => {
-      link.addEventListener('click', (e) => {
-        const target = document.querySelector(link.getAttribute('href'));
-        if(target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
-  </script>
+  <!-- ====== Footer ====== -->
+  <footer>
+    © 2025 MindWell | Made with ❤️ for better mental health
+  </footer>
 </body>
 </html>

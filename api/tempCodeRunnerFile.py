@@ -16,7 +16,7 @@ users_col = db['users']
 moods_col = db['moods']
 journals_col = db['journals']
 community_col = db['community_posts']
-meditations_col = db['meditations']  # New collection for meditation sessions
+meditations_col = db['meditations']
 
 # ------------------ Helper: Login Required ------------------
 def login_required(f):
@@ -31,6 +31,8 @@ def login_required(f):
 # ------------------ Home ------------------
 @app.route('/')
 def index():
+    if 'email' in session:
+        return redirect(url_for('dashboard'))
     return render_template('index.html')
 
 # ------------------ Signup ------------------
@@ -81,7 +83,6 @@ def logout():
 def dashboard():
     email = session['email']
 
-    # Handle mood submission
     if request.method == 'POST':
         mood = request.form.get('mood')
         description = request.form.get('description')
@@ -94,7 +95,6 @@ def dashboard():
             })
         return redirect(url_for('dashboard'))
 
-    # GET method - fetch user data
     user_moods = list(moods_col.find({"email": email}, {"_id": 0}).sort("timestamp", -1))
     user_journals = list(journals_col.find({"email": email}, {"_id": 0}).sort("timestamp", -1))
     user_community_posts = list(community_col.find({"email": email}, {"_id": 0}).sort("timestamp", -1))
@@ -135,8 +135,8 @@ def api_mood():
 def api_meditation():
     email = session['email']
     data = request.get_json()
-    duration = data.get('duration')  # duration in minutes
-    session_type = data.get('type')  # morning / evening / stress
+    duration = data.get('duration')
+    session_type = data.get('type')
 
     if duration and session_type:
         meditations_col.insert_one({
@@ -206,7 +206,19 @@ def meditation():
 @app.route('/export')
 @login_required
 def export():
-    return render_template('export.html')
+    email = session['email']
+
+    # Fetch user data for export
+    user_moods = list(moods_col.find({"email": email}, {"_id": 0}).sort("timestamp", -1))
+    user_journals = list(journals_col.find({"email": email}, {"_id": 0}).sort("timestamp", -1))
+    user_meditations = list(meditations_col.find({"email": email}, {"_id": 0}).sort("timestamp", -1))
+
+    return render_template(
+        'export.html',
+        mood_entries=user_moods,
+        journal_entries=user_journals,
+        meditation_entries=user_meditations
+    )
 
 @app.route('/api/export', methods=['GET'])
 @login_required
@@ -229,6 +241,7 @@ def forgot_password():
             return jsonify({"success": True, "message": "Password reset link sent."})
         return jsonify({"success": False, "message": "Email not found."})
     return render_template('forgot-password.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
