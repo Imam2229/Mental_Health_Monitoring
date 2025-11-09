@@ -1,149 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MindWell - Sign Up</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Arial', sans-serif;
-        background: url('{{ url_for("static", filename="images/signup-bg.jpg") }}') no-repeat center center fixed;
-        background-size: cover;
-        color: #fff;
-    }
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.7);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    }
-    .signup-box {
-        background-color: rgba(0,0,0,0.65);
-        padding: 40px;
-        border-radius: 12px;
-        width: 100%;
-        max-width: 400px;
-        text-align: center;
-    }
-    h2 { margin-bottom: 20px; }
-    input[type="text"], input[type="email"], input[type="password"] {
-        width: 100%;
-        padding: 12px;
-        margin: 10px 0;
-        border: none;
-        border-radius: 8px;
-        font-size: 1rem;
-    }
-    button {
-        width: 100%;
-        padding: 12px;
-        font-size: 1.1rem;
-        border: none;
-        border-radius: 8px;
-        background-color: #4a9c82;
-        color: #fff;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    button:hover { background-color: #36755d; }
-    .bottom-text { margin-top: 15px; }
-    .bottom-text a { color: #4a9c82; text-decoration: none; }
-    .flash-messages {
-        list-style: none;
-        padding: 0;
-        margin-bottom: 15px;
-    }
-    .flash-messages li {
-        padding: 10px;
-        border-radius: 6px;
-        margin-bottom: 10px;
-        font-weight: bold;
-    }
-    .success { background-color: rgba(74, 156, 130, 0.85); }
-    .error { background-color: rgba(255, 99, 71, 0.85); }
-    @media (max-width: 480px) { .signup-box { padding: 30px 20px; } }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up — MindWell</title>
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
-<body>
-<div class="overlay">
-    <div class="signup-box">
-        <h2>Sign Up</h2>
+<body class="auth-page signup-page">
+  <div class="auth-overlay">
+    <div class="auth-container fade-in">
+      <a href="{{ url_for('index') }}" class="auth-logo">
+        🌱 <span>MindWell</span>
+      </a>
 
-        <ul id="flashMessages" class="flash-messages" style="display:none;"></ul>
+      <h2>Create Account</h2>
+      <p class="auth-subtext">Start your mindful journey with us today.</p>
 
-        <form id="signupForm">
-            <input type="text" id="name" placeholder="Full Name" required>
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
-            <button type="submit">Sign Up</button>
-        </form>
+      <!-- Flash Messages -->
+      <ul id="flashMessages" class="flash-messages" style="display:none;"></ul>
 
-        <div class="bottom-text">
-            <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+      <!-- Sign Up Form -->
+      <form id="signupForm" method="POST" action="{{ url_for('signup') }}" class="auth-form">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            placeholder="Enter your full name" 
+            required 
+          />
         </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            placeholder="Enter your email" 
+            required 
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            placeholder="Enter password" 
+            required 
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input 
+            type="password" 
+            id="confirmPassword" 
+            name="confirmPassword" 
+            placeholder="Confirm password" 
+            required 
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary full-width">Create Account</button>
+      </form>
+
+      <div class="auth-footer">
+        <p>
+          Already have an account? 
+          <a href="{{ url_for('login') }}">Login</a>
+        </p>
+      </div>
     </div>
-</div>
+  </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('signupForm');
-    const flash = document.getElementById('flashMessages');
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        flash.style.display = 'none';
-        flash.innerHTML = '';
-
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-
-        if (!name || !email || !password || !confirmPassword) {
-            showFlash('All fields are required.', 'error');
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            showFlash('Passwords do not match.', 'error');
-            return;
-        }
-
-        try {
-            const res = await fetch('/signup', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password })
-            });
-            const data = await res.json();
-
-            if (data.success) {
-                showFlash('✅ Account created successfully! Redirecting to login...', 'success');
-                setTimeout(() => { window.location.href = '/login'; }, 1500);
-            } else {
-                showFlash(data.message || 'Signup failed. Try again.', 'error');
-            }
-        } catch (err) {
-            console.error('Signup error:', err);
-            showFlash('❌ Server error. Please try again later.', 'error');
-        }
-    });
-
-    function showFlash(message, category) {
-        flash.innerHTML = `<li class="${category}">${message}</li>`;
-        flash.style.display = 'block';
-    }
-});
-</script>
+  <!-- External JS -->
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

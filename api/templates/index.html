@@ -1,250 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MindWell - Your Mental Health Companion</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindWell — Your Mental Health Companion</title>
+
+  <!-- External CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <style>
-    /* ====== General ====== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
-
-    body {
-      background: linear-gradient(to bottom right, #dff1f3, #f7fdfd);
-      color: #333;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 60px;
-      background-color: #fff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    header h1 {
-      font-size: 1.8rem;
-      color: #007b83;
-      letter-spacing: 1px;
-    }
-
-    nav a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    nav a:hover {
-      color: #007b83;
-    }
-
-    /* ====== Hero Section ====== */
-    .hero {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 80px 60px;
-      flex-wrap: wrap;
-    }
-
-    .hero-content {
-      flex: 1;
-      min-width: 320px;
-      padding-right: 40px;
-    }
-
-    .hero-content h2 {
-      font-size: 2.8rem;
-      color: #004d4f;
-      margin-bottom: 15px;
-    }
-
-    .hero-content p {
-      font-size: 1.1rem;
-      color: #444;
-      margin-bottom: 25px;
-      line-height: 1.6;
-    }
-
-    .hero-content .btn-group a {
-      text-decoration: none;
-      padding: 12px 30px;
-      border-radius: 30px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      margin-right: 10px;
-    }
-
-    .btn-primary {
-      background: #007b83;
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      background: #009ea7;
-    }
-
-    .btn-secondary {
-      border: 2px solid #007b83;
-      color: #007b83;
-    }
-
-    .btn-secondary:hover {
-      background: #007b83;
-      color: #fff;
-    }
-
-    .hero-image {
-      flex: 1;
-      min-width: 320px;
-      text-align: center;
-    }
-
-    .hero-image img {
-      width: 85%;
-      max-width: 500px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-
-    /* ====== Features ====== */
-    .features {
-      background-color: #fff;
-      padding: 80px 60px;
-      text-align: center;
-    }
-
-    .features h3 {
-      font-size: 2rem;
-      color: #004d4f;
-      margin-bottom: 40px;
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-    }
-
-    .feature-card {
-      background: #f8fdfd;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      transition: transform 0.3s ease;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-8px);
-    }
-
-    .feature-card h4 {
-      color: #007b83;
-      margin-bottom: 10px;
-      font-size: 1.3rem;
-    }
-
-    .feature-card p {
-      color: #555;
-      font-size: 0.95rem;
-    }
-
-    /* ====== Footer ====== */
-    footer {
-      background-color: #004d4f;
-      color: #fff;
-      text-align: center;
-      padding: 30px 10px;
-      font-size: 0.9rem;
-    }
-
-    @media (max-width: 768px) {
-      .hero {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .hero-content {
-        padding-right: 0;
-      }
-
-      .hero-image img {
-        width: 100%;
-      }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
-
 <body>
-  <!-- ====== Header ====== -->
-  <header>
-    <h1>MindWell</h1>
-    <nav>
-      <a href="{{ url_for('index') }}">Home</a>
-      <a href="{{ url_for('login') }}">Login</a>
-      <a href="{{ url_for('signup') }}">Sign Up</a>
-    </nav>
+  <!-- ================= HEADER ================= -->
+  <header class="site-header fade-down">
+    <div class="container header-inner">
+      <a href="{{ url_for('index') }}" class="brand">
+        <span class="logo-icon">🌱</span>
+        <span class="logo-text">MindWell</span>
+      </a>
+      <nav class="nav">
+        <a href="{{ url_for('index') }}" class="active">Home</a>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('journal') }}">Journal</a>
+        <a href="{{ url_for('meditation') }}">Meditation</a>
+        <a href="{{ url_for('community') }}">Community</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('signup') }}">Sign Up</a>
+      </nav>
+    </div>
   </header>
 
-  <!-- ====== Hero Section ====== -->
-  <section class="hero">
-    <div class="hero-content">
-      <h2>Empower Your Mind, Every Day 🌱</h2>
+  <!-- ================= HERO SECTION ================= -->
+  <section class="hero container fade-in">
+    <div class="hero-content fade-up">
+      <h1>Empower Your Mind, Every Day 🌿</h1>
       <p>
-        MindWell helps you track your mood, reflect through journaling, meditate,
-        and connect with a supportive community — all in one place.
+        MindWell helps you track emotions, reflect through journaling, meditate mindfully,
+        and connect with a caring community — building emotional balance day by day.
       </p>
-      <div class="btn-group">
-        <a href="{{ url_for('signup') }}" class="btn-primary">Get Started</a>
-        <a href="{{ url_for('login') }}" class="btn-secondary">Login</a>
+      <div class="hero-buttons fade-up delay-1">
+        <a href="{{ url_for('signup') }}" class="btn btn-primary glow">Get Started</a>
+        <a href="{{ url_for('login') }}" class="btn btn-outline">Login</a>
       </div>
     </div>
 
-    <div class="hero-image">
-      <img src="{{ url_for('static', filename='images/hero-mental-health.jpg') }}" alt="MindWell Hero">
-    </div>
-  </section>
+    <div class="hero-visual fade-in delay-2">
+      <img src="{{ url_for('static', filename='Images/Index_Page.png') }}" alt="MindWell Illustration" />
 
-  <!-- ====== Features Section ====== -->
-  <section class="features">
-    <h3>Everything You Need for Mental Wellness</h3>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <h4>🧠 Mood Tracking</h4>
-        <p>Record how you feel daily and identify patterns that impact your wellbeing.</p>
-      </div>
-
-      <div class="feature-card">
-        <h4>📔 Journaling</h4>
-        <p>Write down your thoughts and experiences to reflect and grow emotionally.</p>
-      </div>
-
-      <div class="feature-card">
-        <h4>🧘 Meditation</h4>
-        <p>Relax and refocus your mind with guided meditation sessions.</p>
-      </div>
-
-      <div class="feature-card">
-        <h4>🤝 Community</h4>
-        <p>Share your journey and support others in the MindWell community.</p>
-      </div>
     </div>
   </section>
 
-  <!-- ====== Footer ====== -->
-  <footer>
-    © 2025 MindWell | Made with ❤️ for better mental health
+  <!-- ================= FEATURES SECTION ================= -->
+  <section class="features fade-in">
+    <div class="container">
+      <h2 class="section-title fade-up">Your Path to Emotional Wellness 🌸</h2>
+      <div class="features-grid">
+        <div class="feature-card fade-up delay-1">
+          <div class="icon">🧠</div>
+          <h3>Mood Tracking</h3>
+          <p>Visualize your emotions and recognize patterns that affect your wellbeing.</p>
+        </div>
+        <div class="feature-card fade-up delay-2">
+          <div class="icon">📔</div>
+          <h3>Guided Journaling</h3>
+          <p>Express your thoughts and track your personal growth through mindful journaling.</p>
+        </div>
+        <div class="feature-card fade-up delay-3">
+          <div class="icon">🧘‍♀️</div>
+          <h3>Meditation Sessions</h3>
+          <p>Relax your mind with personalized meditation and breathing exercises.</p>
+        </div>
+        <div class="feature-card fade-up delay-4">
+          <div class="icon">🤝</div>
+          <h3>Community Support</h3>
+          <p>Share your journey and gain strength from others on the same path.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TESTIMONIALS SECTION ================= -->
+  <section class="testimonials fade-in">
+    <div class="container">
+      <h2 class="section-title fade-up">What Our Users Say 💬</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card fade-up delay-1">
+          <p>“MindWell keeps me grounded and aware of my emotions. It’s simple, calming, and beautifully designed.”</p>
+          <span>— Aisha, Student</span>
+        </div>
+        <div class="testimonial-card fade-up delay-2">
+          <p>“I’ve made journaling and meditation part of my daily routine thanks to MindWell. Love this platform!”</p>
+          <span>— Karan, Software Engineer</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA SECTION ================= -->
+  <section class="cta fade-in">
+    <div class="container cta-inner fade-up">
+      <h2>Start Your Mindful Journey Today 🌱</h2>
+      <p>Join thousands using MindWell to track moods, reflect daily, and cultivate peace of mind.</p>
+      <a href="{{ url_for('signup') }}" class="btn btn-primary btn-large glow">Join Now</a>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer fade-up">
+    <div class="container footer-inner">
+      <p>© 2025 MindWell — Built with ❤️ to support emotional wellbeing.</p>
+    </div>
   </footer>
 </body>
 </html>

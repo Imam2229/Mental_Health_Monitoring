@@ -1,208 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MindWell Meditation</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meditation — MindWell</title>
+
+  <!-- External CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <style>
-    body { font-family: Arial, sans-serif; background: #f0f4f3; }
-    h1, h2 { color: #4a9c82; text-align: center; }
-    .meditation-section { display: flex; flex-wrap: wrap; padding: 2rem; margin: 2rem auto; max-width: 1000px; background: #fff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-    .meditation-left { flex: 1; min-width: 300px; padding: 1rem; }
-    .meditation-right { flex: 1; min-width: 300px; padding: 1rem; position: relative; overflow: hidden; }
-    .exercise-slider { display: flex; transition: transform 0.5s ease-in-out; }
-    .exercise-slide { min-width: 100%; box-sizing: border-box; }
-    .exercise-img { width: 100%; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-    .timer-display { font-size: 2.5rem; color: #4a9c82; text-align: center; margin: 1rem 0; }
-    .btn { padding: 0.5rem 1rem; margin: 0.5rem; border-radius: 8px; border: none; cursor: pointer; font-size: 1rem; }
-    .btn-start { background-color: #4a9c82; color: white; }
-    .btn-pause { background-color: #f4b400; color: white; }
-    .btn-reset { background-color: #ff6371; color: white; }
-    .audio-btn { margin-top: 1rem; background: #36755d; color: white; }
-    .steps { text-align: left; margin: 1rem 0; }
-    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.4); color: white; border: none; padding: 0.5rem 1rem; cursor: pointer; border-radius: 50%; z-index: 10; }
-    .prev { left: 10px; }
-    .next { right: 10px; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-
-<h1>🧘 MindWell Meditation</h1>
-
-<!-- ===== Morning Meditation ===== -->
-<section class="meditation-section" id="morningMeditation">
-  <div class="meditation-left">
-    <h2>Morning Calm Meditation</h2>
-    <div class="timer-display" id="morningTimer">05:00</div>
-    <button class="btn btn-start" onclick="startTimer('morning')">Start</button>
-    <button class="btn btn-pause" onclick="pauseTimer('morning')">Pause</button>
-    <button class="btn btn-reset" onclick="resetTimer('morning')">Reset</button>
-    <div>
-      <audio id="morningAudio" loop>
-        <source src="{{ url_for('static', filename='Sound/morningcalm.mp3') }}" type="audio/mpeg">
-      </audio>
-      <button class="btn audio-btn" onclick="toggleAudio('morning')">Play Music</button>
+  <!-- ================= HEADER ================= -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="{{ url_for('dashboard') }}" class="brand">
+        <span class="logo-icon">🌱</span>
+        <span class="logo-text">MindWell</span>
+      </a>
+      <nav class="nav">
+         <a href="{{ url_for('index') }}" class="active">Home</a>
+         <a href="{{ url_for('dashboard') }}">Dashboard</a>
+         <a href="{{ url_for('journal') }}">Journal</a>
+         <a href="{{ url_for('meditation') }}">Meditation</a>
+         <a href="{{ url_for('community') }}">Community</a>
+         <a href="{{ url_for('login') }}">Login</a>
+         <a href="{{ url_for('signup') }}">Sign Up</a>
+      </nav>
     </div>
-    <div class="steps">
-      <h3>Steps for Morning Meditation:</h3>
-      <ul>
-        <li>1. Sit comfortably and close your eyes.</li>
-        <li>2. Take deep breaths and focus on your morning intentions.</li>
-        <li>3. Visualize positive energy filling your body.</li>
-        <li>4. Relax each muscle starting from head to toe.</li>
-      </ul>
+  </header>
+
+  <!-- ================= MEDITATION PAGE ================= -->
+  <main class="container meditation fade-in">
+    <div class="meditation-header">
+      <h1>Mindful Meditation 🧘</h1>
+      <p>Take a few minutes to unwind, breathe deeply, and center your thoughts.</p>
     </div>
-  </div>
 
-  <div class="meditation-right">
-    <button class="nav-btn prev" onclick="prevExerciseSlide('morning')">&#10094;</button>
-    <div class="exercise-slider" id="morningExerciseSlider">
-      <div class="exercise-slide"><img class="exercise-img" src="https://cdn.pixabay.com/photo/2016/11/22/23/29/meditate-1851165_1280.jpg" alt="Morning Exercise 1"></div>
-      <div class="exercise-slide"><img class="exercise-img" src="https://cdn.pixabay.com/photo/2021/03/27/10/43/yoga-6128116_1280.jpg" alt="Morning Exercise 2"></div>
-      <div class="exercise-slide"><img class="exercise-img" src="https://cdn.pixabay.com/photo/2017/11/18/05/00/woman-2959213_1280.jpg" alt="Morning Exercise 3"></div>
-      <div class="exercise-slide"><img class="exercise-img" src="https://cdn.pixabay.com/photo/2019/04/14/17/54/woman-4127336_1280.jpg" alt="Morning Exercise 4"></div>
-      <div class="exercise-slide"><img class="exercise-img" src="https://cdn.pixabay.com/photo/2016/01/18/09/46/yoga-1146277_1280.jpg" alt="Morning Exercise 5"></div>
+    <!-- ===== Morning Meditation ===== -->
+    <section class="meditation-section">
+      <div class="meditation-content">
+        <div class="meditation-info">
+          <h2>🌅 Morning Calm</h2>
+          <div class="timer" id="morningTimer">05:00</div>
+          <div class="timer-controls">
+            <button class="btn btn-primary" data-action="start" data-type="morning">Start</button>
+            <button class="btn btn-secondary" data-action="pause" data-type="morning">Pause</button>
+            <button class="btn btn-danger" data-action="reset" data-type="morning">Reset</button>
+          </div>
+          <audio id="morningAudio" loop>
+            <source src="{{ url_for('static', filename='Sound/morningcalm.mp3') }}" type="audio/mpeg" />
+          </audio>
+          <button class="btn btn-outline play-audio" data-type="morning">🎵 Play Music</button>
+          <div class="steps">
+            <h3>Steps:</h3>
+            <ul>
+              <li>1. Sit comfortably and close your eyes.</li>
+              <li>2. Take deep breaths and set positive intentions.</li>
+              <li>3. Visualize calm, positive energy filling your body.</li>
+              <li>4. Relax each muscle from head to toe.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="meditation-slider">
+          <button class="slider-btn prev" data-type="morning">❮</button>
+          <div class="slider-track" id="morningSlider">
+            <img src="https://cdn.pixabay.com/photo/2016/11/22/23/29/meditate-1851165_1280.jpg" alt="Morning 1" />
+            <img src="https://cdn.pixabay.com/photo/2021/03/27/10/43/yoga-6128116_1280.jpg" alt="Morning 2" />
+            <img src="https://cdn.pixabay.com/photo/2017/11/18/05/00/woman-2959213_1280.jpg" alt="Morning 3" />
+            <img src="https://cdn.pixabay.com/photo/2019/04/14/17/54/woman-4127336_1280.jpg" alt="Morning 4" />
+            <img src="https://cdn.pixabay.com/photo/2016/01/18/09/46/yoga-1146277_1280.jpg" alt="Morning 5" />
+          </div>
+          <button class="slider-btn next" data-type="morning">❯</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Evening Meditation ===== -->
+    <section class="meditation-section">
+      <div class="meditation-content">
+        <div class="meditation-info">
+          <h2>🌙 Evening Relax</h2>
+          <div class="timer" id="eveningTimer">05:00</div>
+          <div class="timer-controls">
+            <button class="btn btn-primary" data-action="start" data-type="evening">Start</button>
+            <button class="btn btn-secondary" data-action="pause" data-type="evening">Pause</button>
+            <button class="btn btn-danger" data-action="reset" data-type="evening">Reset</button>
+          </div>
+          <audio id="eveningAudio" loop>
+            <source src="{{ url_for('static', filename='Sound/eveningRelax.mp3') }}" type="audio/mpeg" />
+          </audio>
+          <button class="btn btn-outline play-audio" data-type="evening">🎵 Play Music</button>
+          <div class="steps">
+            <h3>Steps:</h3>
+            <ul>
+              <li>1. Sit quietly and close your eyes.</li>
+              <li>2. Reflect on your day and release any stress.</li>
+              <li>3. Focus on calm breathing and relaxation.</li>
+              <li>4. Visualize peace entering your mind and body.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="meditation-slider">
+          <button class="slider-btn prev" data-type="evening">❮</button>
+          <div class="slider-track" id="eveningSlider">
+            <img src="https://cdn.pixabay.com/photo/2018/04/21/13/59/meditation-3338549_1280.jpg" alt="Evening 1" />
+            <img src="https://cdn.pixabay.com/photo/2019/09/19/14/37/yoga-4489430_1280.jpg" alt="Evening 2" />
+            <img src="https://cdn.pixabay.com/photo/2020/03/13/15/19/meditation-4928205_1280.jpg" alt="Evening 3" />
+            <img src="https://cdn.pixabay.com/photo/2016/11/14/03/17/women-1822476_1280.jpg" alt="Evening 4" />
+            <img src="https://cdn.pixabay.com/photo/2016/11/18/15/05/beach-1835213_1280.jpg" alt="Evening 5" />
+          </div>
+          <button class="slider-btn next" data-type="evening">❯</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Focus Meditation ===== -->
+    <section class="meditation-section">
+      <div class="meditation-content">
+        <div class="meditation-info">
+          <h2>🧘 Focus Boost</h2>
+          <div class="timer" id="focusTimer">05:00</div>
+          <div class="timer-controls">
+            <button class="btn btn-primary" data-action="start" data-type="focus">Start</button>
+            <button class="btn btn-secondary" data-action="pause" data-type="focus">Pause</button>
+            <button class="btn btn-danger" data-action="reset" data-type="focus">Reset</button>
+          </div>
+          <audio id="focusAudio" loop>
+            <source src="{{ url_for('static', filename='Sound/focusboost.mp3') }}" type="audio/mpeg" />
+          </audio>
+          <button class="btn btn-outline play-audio" data-type="focus">🎵 Play Music</button>
+          <div class="steps">
+            <h3>Steps:</h3>
+            <ul>
+              <li>1. Sit comfortably and take a deep breath.</li>
+              <li>2. Focus on your breath and let go of distractions.</li>
+              <li>3. Visualize focus and clarity returning to your mind.</li>
+              <li>4. End with gratitude for the moment.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="meditation-slider">
+          <button class="slider-btn prev" data-type="focus">❮</button>
+          <div class="slider-track" id="focusSlider">
+            <img src="https://attentiontodetail.com/wp-content/uploads/2022/03/FOCUS-acronym.jpeg" alt="Focus 1" />
+          </div>
+          <button class="slider-btn next" data-type="focus">❯</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 MindWell — Take a deep breath, you’re doing great 💚</p>
     </div>
-    <button class="nav-btn next" onclick="nextExerciseSlide('morning')">&#10095;</button>
-  </div>
-</section>
+  </footer>
 
-<!-- ===== Evening Meditation ===== -->
-<section class="meditation-section" id="eveningMeditation">
-  <div class="meditation-left">
-    <h2>Evening Relax Meditation</h2>
-    <div class="timer-display" id="eveningTimer">05:00</div>
-    <button class="btn btn-start" onclick="startTimer('evening')">Start</button>
-    <button class="btn btn-pause" onclick="pauseTimer('evening')">Pause</button>
-    <button class="btn btn-reset" onclick="resetTimer('evening')">Reset</button>
-    <div>
-      <audio id="eveningAudio" loop>
-        <source src="{{ url_for('static', filename='Sound/eveningRelax.mp3') }}" type="audio/mpeg">
-      </audio>
-      <button class="btn audio-btn" onclick="toggleAudio('evening')">Play Music</button>
-    </div>
-    <div class="steps">
-      <h3>Steps for Evening Meditation:</h3>
-      <ul>
-        <li>1. Sit in a quiet place and close your eyes.</li>
-        <li>2. Reflect on the day and let go of stress.</li>
-        <li>3. Focus on slow breathing and relaxation.</li>
-        <li>4. Visualize calmness and peace in your mind.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="meditation-right">
-    <button class="nav-btn prev" onclick="prevExerciseSlide('evening')">&#10094;</button>
-    <div class="exercise-slider" id="eveningExerciseSlider">
-      <div class="exercise-slide"><img class="exercise-img" src="https://cdn.pixabay.com/photo/2018/04/21/13/59/meditation-3338549_1280.jpg" alt="Evening Exercise 1"></div>
-      <div class="exercise-slide"><img class="exercise-img" src="https://cdn.pixabay.com/photo/2019/09/19/14/37/yoga-4489430_1280.jpg" alt="Evening Exercise 2"></div>
-      <div class="exercise-slide"><img class="exercise-img" src="https://cdn.pixabay.com/photo/2020/03/13/15/19/meditation-4928205_1280.jpg" alt="Evening Exercise 3"></div>
-      <div class="exercise-slide"><img class="exercise-img" src="https://cdn.pixabay.com/photo/2016/11/14/03/17/women-1822476_1280.jpg" alt="Evening Exercise 4"></div>
-      <div class="exercise-slide"><img class="exercise-img" src="https://cdn.pixabay.com/photo/2016/11/18/15/05/beach-1835213_1280.jpg" alt="Evening Exercise 5"></div>
-      <div class="exercise-slide"><img class="exercise-img" src="https://cdn.pixabay.com/photo/2015/12/25/09/39/balance-1107484_1280.jpg" alt="Evening Exercise 6"></div>
-    </div>
-    <button class="nav-btn next" onclick="nextExerciseSlide('evening')">&#10095;</button>
-  </div>
-</section>
-
-<!-- ===== Stress Relief Meditation ===== -->
-<section class="meditation-section" id="stressMeditation">
-  <div class="meditation-left">
-    <h2>Focus Boost Meditation</h2>
-    <div class="timer-display" id="stressTimer">05:00</div>
-    <button class="btn btn-start" onclick="startTimer('stress')">Start</button>
-    <button class="btn btn-pause" onclick="pauseTimer('stress')">Pause</button>
-    <button class="btn btn-reset" onclick="resetTimer('stress')">Reset</button>
-    <div>
-      <audio id="stressAudio" loop>
-        <source src="{{ url_for('static', filename='Sound/focusboost.mp3') }}" type="audio/mpeg">
-      </audio>
-      <button class="btn audio-btn" onclick="toggleAudio('stress')">Play Music</button>
-    </div>
-    <div class="steps">
-      <h3>Steps for Stress Relief:</h3>
-      <ul>
-        <li>1. Sit comfortably and close your eyes.</li>
-        <li>2. Focus on your breath and inhale positivity.</li>
-        <li>3. Let go of tension in your body.</li>
-        <li>4. Visualize focus and energy returning to your mind.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="meditation-right">
-    <button class="nav-btn prev" onclick="prevExerciseSlide('stress')">&#10094;</button>
-    <div class="exercise-slider" id="stressExerciseSlider">
-      <div class="exercise-slide"><img class="exercise-img" src="https://attentiontodetail.com/wp-content/uploads/2022/03/FOCUS-acronym.jpeg" alt="Stress Exercise 1"></div>
-    </div>
-    <button class="nav-btn next" onclick="nextExerciseSlide('stress')">&#10095;</button>
-  </div>
-</section>
-
-<script>
-  // ===== Timer, Audio logic =====
-  const timers = {
-    morning: {total: 5*60, remaining: 5*60, interval: null, timerEl: document.getElementById('morningTimer')},
-    evening: {total: 5*60, remaining: 5*60, interval: null, timerEl: document.getElementById('eveningTimer')},
-    stress: {total: 5*60, remaining: 5*60, interval: null, timerEl: document.getElementById('stressTimer')}
-  };
-
-  function formatTime(sec) {
-    const m = Math.floor(sec/60).toString().padStart(2,'0');
-    const s = (sec%60).toString().padStart(2,'0');
-    return `${m}:${s}`;
-  }
-
-  function updateTimer(type) { timers[type].timerEl.textContent = formatTime(timers[type].remaining); }
-
-  function startTimer(type) {
-    if(timers[type].interval) return;
-    timers[type].interval = setInterval(() => {
-      if(timers[type].remaining > 0){
-        timers[type].remaining--;
-        updateTimer(type);
-      } else {
-        clearInterval(timers[type].interval);
-        timers[type].interval = null;
-        alert(`${type.charAt(0).toUpperCase()+type.slice(1)} session complete!`);
-        saveSession(type);
-      }
-    },1000);
-  }
-
-  function pauseTimer(type){ clearInterval(timers[type].interval); timers[type].interval = null; }
-  function resetTimer(type){ pauseTimer(type); timers[type].remaining = timers[type].total; updateTimer(type); }
-  function toggleAudio(type){ const audio = document.getElementById(type+'Audio'); audio.paused ? audio.play() : audio.pause(); }
-  for(let t in timers) updateTimer(t);
-
-  // ===== Exercise Slider Logic =====
-  const exerciseIndices = {morning:0, evening:0, stress:0};
-  function nextExerciseSlide(type){
-    const slider = document.getElementById(type+'ExerciseSlider');
-    const total = slider.children.length;
-    exerciseIndices[type] = (exerciseIndices[type]+1) % total;
-    slider.style.transform = `translateX(-${exerciseIndices[type]*100}%)`;
-  }
-  function prevExerciseSlide(type){
-    const slider = document.getElementById(type+'ExerciseSlider');
-    const total = slider.children.length;
-    exerciseIndices[type] = (exerciseIndices[type]-1+total) % total;
-    slider.style.transform = `translateX(-${exerciseIndices[type]*100}%)`;
-  }
-
-  // Save session via API
-  async function saveSession(type){
-    const durations = {morning: timers.morning.total/60, evening: timers.evening.total/60, stress: timers.stress.total/60};
-    try{
-      await fetch('/api/meditation',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({duration: durations[type], type: type})
-      });
-    } catch(err){ console.error('Failed to save session', err); }
-  }
-</script>
+  <!-- External JS -->
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

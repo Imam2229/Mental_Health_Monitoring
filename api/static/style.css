@@ -1,124 +1,924 @@
-/* ========================= Root & Global ========================= */
+/* ==========================================================
+   🌱 MINDWELL — Universal Professional Theme
+   Designed for: index.html, dashboard.html, journal.html,
+   meditation.html, community.html, login/signup/auth pages
+   ========================================================== */
+
+/* ==========================
+   Global Variables
+   ========================== */
 :root {
-  --primary:#4a9c82;--primary-dark:#3a7c68;--primary-light:#6bbaa7;
-  --secondary:#6c63ff;--accent:#ff6b6b;--text-dark:#2d3748;--text-light:#718096;
-  --bg-light:#f7fafc;--bg-white:#fff;--border:#e2e8f0;--shadow:0 4px 6px rgba(0,0,0,0.1);
-  --shadow-lg:0 10px 15px rgba(0,0,0,0.1);--radius:12px;--transition:all 0.3s ease;
+  --color-primary: #007b83;
+  --color-primary-hover: #009ea7;
+  --color-secondary: #004d4f;
+  --color-bg-start: #dff1f3;
+  --color-bg-end: #f7fdfd;
+  --color-text-dark: #333;
+  --color-text-light: #555;
+  --color-white: #fff;
+  --color-gray: #e2e8f0;
+  --color-danger: #ff6371;
+  --color-success: #4a9c82;
+  --color-shadow: rgba(0, 0, 0, 0.05);
+  --gradient-bg: linear-gradient(to bottom right, var(--color-bg-start), var(--color-bg-end));
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Inter','Segoe UI',system-ui,sans-serif;line-height:1.6;color:var(--text-dark);
-  background:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%);min-height:100vh;}
-.container{max-width:1200px;margin:0 auto;padding:0 20px;min-height:100vh;display:flex;flex-direction:column;}
 
-/* ========================= Header & Nav ========================= */
-.header{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;
-  background:rgba(255,255,255,.95);backdrop-filter:blur(10px);position:sticky;top:0;z-index:1000;border-bottom:1px solid var(--border);}
-.logo{display:flex;align-items:center;gap:.5rem;}
-.logo h1{font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.nav{display:flex;align-items:center;gap:2rem;}
-.nav-link{text-decoration:none;color:var(--text-dark);font-weight:500;padding:.5rem 1rem;border-radius:var(--radius);position:relative;transition:var(--transition);}
-.nav-link:hover{color:var(--primary);background:rgba(74,156,130,0.1);}
-.nav-link::after{content:'';position:absolute;bottom:-2px;left:50%;width:0;height:2px;background:var(--primary);transition:var(--transition);transform:translateX(-50%);}
-.nav-link:hover::after{width:80%;}
-.btn-login{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:.75rem 1.5rem;border-radius:var(--radius);
-  font-weight:600;transition:var(--transition);box-shadow:var(--shadow);}
-.btn-login:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+/* ==========================
+   Base Reset
+   ========================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* ========================= Buttons ========================= */
-.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;border:none;padding:.875rem 2rem;border-radius:var(--radius);
-  cursor:pointer;font-size:1rem;font-weight:600;transition:var(--transition);box-shadow:var(--shadow);display:inline-flex;align-items:center;gap:.5rem;}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
-.btn-secondary{background:transparent;color:var(--primary);border:2px solid var(--primary);padding:.75rem 1.5rem;border-radius:var(--radius);cursor:pointer;font-weight:600;transition:var(--transition);}
-.btn-secondary:hover{background:var(--primary);color:#fff;}
+html, body {
+  font-family: "Poppins", sans-serif;
+  background: var(--gradient-bg);
+  color: var(--color-text-dark);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
 
-/* ========================= Cards & Sections ========================= */
-.hero-section,.dashboard-section,.journal-section,.meditation-section,.community-section,.export-section{padding:2rem 0;flex:1;}
-.hero-section{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
-.hero-content h2{font-size:3rem;font-weight:700;line-height:1.2;margin-bottom:1.5rem;background:linear-gradient(135deg,var(--text-dark),var(--primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.hero-content p{font-size:1.2rem;color:var(--text-light);margin-bottom:2rem;line-height:1.8;}
-.feature-preview{display:grid;gap:1.5rem;}
-.preview-card,.dashboard-card,.recommendation-box,.journal-editor,.journal-entries,.meditation-card,.community-editor,.posts-container,.export-card{background:var(--bg-white);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);border:1px solid var(--border);transition:var(--transition);}
-.preview-card:hover,.dashboard-card:hover,.recommendation-box:hover,.journal-editor:hover,.journal-entries:hover,.meditation-card:hover,.community-editor:hover,.posts-container:hover,.export-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);}
-.preview-card h3,.dashboard-card h2,.recommendation-box h3,.journal-header h2,.meditation-card h3,.community-header h2,.export-card h3{color:var(--primary);font-size:1.5rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
-.preview-card p,.dashboard-card p,.recommendation-box p,.journal-header p,.meditation-card p,.community-header p,.export-card p{color:var(--text-light);margin-bottom:1.5rem;line-height:1.5;}
-.dashboard-grid,.stats-grid,.meditation-grid,.export-options{display:grid;gap:2rem;}
-.dashboard-grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-bottom:3rem;}
-.stats-grid{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem;}
-.mood-card,.stat-card,.post-item,.entry-item,.mood-submission{border-radius:var(--radius);transition:var(--transition);}
-.mood-card,.stat-card{padding:1rem;text-align:center;border:1px solid var(--border);}
-.stat-card h4{margin-bottom:.5rem;font-size:1rem;color:var(--primary);}
-.stat-card p{font-weight:600;color:var(--text-dark);}
-.chart-container{position:relative;width:100%;height:320px;padding:1rem;background:var(--bg-light);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);transition:var(--transition);}
-.chart-container:hover{box-shadow:var(--shadow-lg);}
-.journal-textarea,.community-textarea{width:100%;min-height:200px;padding:1.5rem;border:2px solid var(--border);border-radius:var(--radius);font-size:1rem;font-family:inherit;resize:vertical;transition:var(--transition);background:var(--bg-light);}
-.journal-textarea:focus,.community-textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(74,156,130,.1);}
-.entries-list,.posts-list{list-style:none;}
-.entry-item,.post-item{padding:1.5rem;border-bottom:1px solid var(--border);}
-.entry-item:last-child,.post-item:last-child{border-bottom:none;}
-.entry-date,.post-date{font-size:.875rem;color:var(--text-light);margin-bottom:.5rem;}
-.entry-content,.post-content{color:var(--text-dark);line-height:1.6;}
-.recommendation-box{padding:1.5rem;border:1px solid var(--border);}
-.export-section{text-align:center;}
-.export-header{margin-bottom:3rem;}
-.export-header h2{font-size:2.5rem;margin-bottom:1rem;}
-.export-header p{color:var(--text-light);font-size:1.1rem;max-width:600px;margin:0 auto;}
-.export-options{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));max-width:800px;margin:0 auto;}
-.export-card{padding:3rem 2rem;}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
 
-/* ========================= Meditation Timer ========================= */
-.meditation-timer{background:var(--bg-white);border-radius:var(--radius);padding:3rem;box-shadow:var(--shadow);border:1px solid var(--border);text-align:center;margin-top:2rem;}
-.timer-display{font-size:4rem;font-weight:700;color:var(--primary);margin:2rem 0;font-family:'Courier New',monospace;}
-.timer-controls{display:flex;gap:1rem;justify-content:center;}
-.hidden{display:none;}
+/* ==========================
+   Header & Navigation
+   ========================== */
+.site-header {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-gray);
+  box-shadow: 0 2px 10px var(--color-shadow);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  animation: fadeDown 0.8s ease forwards;
+}
 
-/* ========================= Auth Pages ========================= */
-.login-section,.signup-section{display:flex;align-items:center;justify-content:center;min-height:80vh;padding:2rem 0;}
-.login-card,.signup-card{background:var(--bg-white);border-radius:var(--radius);padding:3rem;box-shadow:var(--shadow-lg);border:1px solid var(--border);width:100%;max-width:450px;text-align:center;}
-.login-card h2,.signup-card h2{font-size:2rem;margin-bottom:.5rem;color:var(--text-dark);}
-.login-card p,.signup-card p{color:var(--text-light);margin-bottom:2rem;}
-.form-group{margin-bottom:1.5rem;text-align:left;}
-.form-group label{display:block;margin-bottom:.5rem;font-weight:600;color:var(--text-dark);}
-.form-group input{width:100%;padding:1rem;border:2px solid var(--border);border-radius:var(--radius);font-size:1rem;transition:var(--transition);background:var(--bg-light);}
-.form-group input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(74,156,130,.1);}
-.password-wrapper{position:relative;}
-.password-toggle{position:absolute;right:1rem;top:50%;transform:translateY(-50%);cursor:pointer;background:none;border:none;font-size:1.2rem;}
-.signup-link{margin-top:2rem;color:var(--text-light);}
-.signup-link a{color:var(--primary);text-decoration:none;font-weight:600;}
-.signup-link a:hover{text-decoration:underline;}
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-/* ========================= Footer ========================= */
-.footer{text-align:center;padding:.7rem 0;margin-top:auto;color:var(--text-light);border-top:1px solid var(--border);background:rgba(255,255,255,.8);}
+.brand {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
 
-/* ========================= Animations & States ========================= */
-.fade-in{animation:fadeIn .5s ease-in;}
-.slide-up{animation:slideUp .5s ease-out;}
-@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-.loading{opacity:.7;pointer-events:none;}
-.success-message{background:#d4edda;color:#155724;padding:1rem;border-radius:var(--radius);margin-bottom:1rem;border:1px solid #c3e6cb;}
-.error-message{background:#f8d7da;color:#721c24;padding:1rem;border-radius:var(--radius);margin-bottom:1rem;border:1px solid #f5c6cb;}
+.nav {
+  display: flex;
+  gap: 1.2rem;
+}
 
-/* ========================= Mood Submissions ========================= */
-.mood-submissions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem;}
-.mood-submission{width:24px;height:24px;border-radius:4px;background:#e2e8f0;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;}
-.mood-submission:hover{transform:scale(1.2);box-shadow:0 2px 8px rgba(0,0,0,.2);}
-.mood-happy{background:#4a9c82;}.mood-sad{background:#718096;}.mood-stressed{background:#ff6b6b;}.mood-neutral{background:#6c63ff;}
-.mood-submission::after{content:attr(data-mood);position:absolute;bottom:150%;left:50%;transform:translateX(-50%);background:var(--text-dark);color:#fff;padding:2px 6px;font-size:.75rem;border-radius:4px;opacity:0;pointer-events:none;transition:opacity .2s;white-space:nowrap;}
-.mood-submission:hover::after{opacity:1;}
+.nav a {
+  color: var(--color-text-dark);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding-bottom: 4px;
+}
 
-/* ========================= Responsive ========================= */
-@media(max-width:768px){
-  .header{flex-direction:column;gap:1rem;padding:1rem 0;}
-  .nav{flex-wrap:wrap;justify-content:center;gap:1rem;}
-  .hero-section{grid-template-columns:1fr;gap:2rem;text-align:center;}
-  .hero-content h2{font-size:2.5rem;}
-  .dashboard-grid,.meditation-grid,.export-options{grid-template-columns:1fr;}
-  .login-card,.signup-card{padding:2rem;margin:1rem;}
-  .meditation-grid{grid-template-columns:1fr;gap:1.5rem;}
-  .meditation-header h2{font-size:2rem;}
-  .meditation-card{padding:1.5rem;}
-  .meditation-card p{margin-bottom:1rem;}
-  .meditation-timer{padding:2rem;}
-  .timer-display{font-size:3rem;}
+.nav a:hover,
+.nav a.active {
+  color: var(--color-primary);
+  border-bottom: 3px solid var(--color-primary);
+}
+
+/* ==========================
+   Buttons
+   ========================== */
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border-radius: 30px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  background: transparent;
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: var(--color-white);
+}
+
+.glow {
+  box-shadow: 0 0 10px rgba(0, 123, 131, 0.3), 0 0 20px rgba(0, 123, 131, 0.15);
+  transition: all 0.3s ease;
+}
+.glow:hover {
+  box-shadow: 0 0 20px rgba(0, 123, 131, 0.5), 0 0 30px rgba(0, 123, 131, 0.3);
+}
+
+/* ==========================
+   Hero Section (index.html)
+   ========================== */
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  padding: 5rem 1rem;
+}
+
+.hero-content {
+  flex: 1;
+  min-width: 300px;
+}
+
+.hero-content h1 {
+  font-size: 2.8rem;
+  color: var(--color-secondary);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  line-height: 1.6;
+  margin-bottom: 1.8rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.hero-visual img {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px var(--color-shadow);
+  animation: float 5s ease-in-out infinite;
+}
+
+/* ==========================
+   Features & Cards
+   ========================== */
+.features {
+  padding: 4rem 1rem;
+  background: var(--color-white);
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--color-secondary);
+  margin-bottom: 2rem;
+  position: relative;
+}
+.section-title::after {
+  content: '';
+  width: 70px;
+  height: 4px;
+  background: var(--color-primary);
+  display: block;
+  margin: 0.8rem auto 0;
+  border-radius: 2px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.feature-card {
+  background: var(--gradient-bg);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 6px 12px var(--color-shadow);
+  transition: all 0.4s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+}
+
+.feature-card .icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.8rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ==========================
+   Testimonials
+   ========================== */
+.testimonials {
+  padding: 4rem 1rem;
+  background: #f1f7f7;
+}
+
+.testimonial-card {
+  background: var(--color-white);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 10px;
+  padding: 1.5rem;
+  font-style: italic;
+  box-shadow: 0 4px 10px var(--color-shadow);
+  transition: 0.3s;
+}
+.testimonial-card:hover {
+  transform: translateY(-4px);
+}
+.testimonial-card span {
+  display: block;
+  text-align: right;
+  margin-top: 1rem;
+  color: var(--color-secondary);
+}
+
+/* ==========================
+   CTA Section
+   ========================== */
+.cta {
+  background: linear-gradient(135deg, #007b83, #009ea7);
+  color: var(--color-white);
+  text-align: center;
+  padding: 5rem 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 70%);
+  animation: pulse 6s infinite linear;
+}
+
+.cta-inner h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.cta-inner p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ==========================
+   Dashboard & Journal Pages
+   ========================== */
+.dashboard-grid,
+.journal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.dashboard-card,
+.journal-card {
+  background: var(--color-white);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 10px var(--color-shadow);
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover,
+.journal-card:hover {
+  transform: translateY(-5px);
+}
+
+/* ==========================
+   Meditation Page
+   ========================== */
+.meditation-container {
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.meditation-container h1 {
+  color: var(--color-secondary);
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+.meditation-session {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  box-shadow: 0 8px 20px var(--color-shadow);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.meditation-session:hover {
+  transform: translateY(-4px);
+}
+
+/* ==========================
+   Auth Pages (Login / Signup)
+   ========================== */
+.auth-page {
+  background: linear-gradient(135deg, #dff1f3, #f7fdfd);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-container {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 8px 20px var(--color-shadow);
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  animation: fadeUp 0.8s ease;
+}
+
+.auth-container h2 {
+  color: var(--color-secondary);
+  margin-bottom: 1rem;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 10px;
+  border: 2px solid var(--color-gray);
+  margin-bottom: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.auth-form input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 6px rgba(0, 123, 131, 0.3);
+  outline: none;
+}
+
+.auth-footer a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+.auth-footer a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* ==========================
+   Footer
+   ========================== */
+.site-footer {
+  text-align: center;
+  padding: 2rem;
+  background: var(--color-secondary);
+  color: var(--color-white);
+  margin-top: 3rem;
+  font-size: 0.9rem;
+}
+
+/* ==========================
+   Animations
+   ========================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ==========================
+   Responsive
+   ========================== */
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+  .features-grid,
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  .nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* meditation */
+/* ==========================================================
+   🧘 Meditation Page — MindWell
+   ========================================================== */
+
+.meditation {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #dff8f5, #f7fdfd);
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Page Header */
+.meditation-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+  animation: fadeIn 1s ease forwards;
+}
+
+.meditation-header h1 {
+  font-size: 2.5rem;
+  color: var(--color-secondary);
+  margin-bottom: 0.8rem;
+  font-weight: 700;
+}
+
+.meditation-header p {
+  color: var(--color-text-light);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Meditation Sections */
+.meditation-section {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 20px var(--color-shadow);
+  margin-bottom: 3rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.meditation-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Layout */
+.meditation-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+/* Info Section */
+.meditation-info {
+  flex: 1 1 350px;
+  text-align: left;
+}
+
+.meditation-info h2 {
+  color: var(--color-primary);
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+
+.meditation-info .timer {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+  margin-bottom: 1.2rem;
+  background: rgba(0, 123, 131, 0.08);
+  border-radius: 10px;
+  display: inline-block;
+  padding: 0.6rem 1.3rem;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+}
+
+.play-audio {
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.play-audio:hover {
+  transform: scale(1.05);
+}
+
+/* Steps */
+.steps {
+  background: rgba(0, 123, 131, 0.05);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.steps h3 {
+  color: var(--color-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 0.6rem;
+}
+
+.steps ul {
+  list-style: none;
+  padding: 0;
+}
+
+.steps ul li {
+  color: var(--color-text-light);
+  line-height: 1.5;
+  margin-bottom: 0.4rem;
+  position: relative;
+  padding-left: 1.2rem;
+}
+
+.steps ul li::before {
+  content: "•";
+  color: var(--color-primary);
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  font-size: 1.1rem;
+}
+
+/* ===========================================
+   Slider Section
+   =========================================== */
+.meditation-slider {
+  flex: 1 1 480px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: 0 6px 18px var(--color-shadow);
+  transition: transform 0.3s ease;
+}
+
+.meditation-slider:hover {
+  transform: scale(1.01);
+}
+
+.slider-track {
+  display: flex;
+  width: 100%;
+  transition: transform 0.6s ease-in-out;
+}
+
+.slider-track img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 18px;
+  flex-shrink: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.slider-track img:hover {
+  transform: scale(1.03);
+  opacity: 0.9;
+}
+
+/* Slider Buttons */
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 123, 131, 0.75);
+  color: var(--color-white);
+  border: none;
+  font-size: 1.4rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.slider-btn:hover {
+  background: rgba(0, 123, 131, 0.9);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.slider-btn.prev { left: 10px; }
+.slider-btn.next { right: 10px; }
+
+/* ===========================================
+   Background Animations
+   =========================================== */
+.meditation::before,
+.meditation::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(0, 123, 131, 0.08);
+  animation: floatCircle 16s ease-in-out infinite;
+  z-index: 0;
+}
+
+.meditation::before {
+  width: 250px;
+  height: 250px;
+  top: 10%;
+  left: 15%;
+  animation-delay: 0s;
+}
+
+.meditation::after {
+  width: 300px;
+  height: 300px;
+  bottom: 10%;
+  right: 10%;
+  animation-delay: 5s;
+}
+
+/* ===========================================
+   Animations
+   =========================================== */
+@keyframes floatCircle {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
+  50% { transform: translateY(-20px) scale(1.05); opacity: 1; }
+}
+
+/* ===========================================
+   Responsive Design
+   =========================================== */
+@media (max-width: 992px) {
+  .meditation-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .meditation-slider {
+    width: 100%;
+  }
+
+  .slider-track img {
+    height: 260px;
+  }
+
+  .meditation-info {
+    text-align: center;
+  }
+
+  .timer-controls {
+    justify-content: center;
+  }
+
+  .steps {
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  .meditation {
+    padding: 3rem 1rem;
+  }
+
+  .slider-track img {
+    height: 220px;
+  }
+
+  .meditation-header h1 {
+    font-size: 2rem;
+  }
+
+  .meditation-info h2 {
+    font-size: 1.4rem;
+  }
+
+  .meditation-section {
+    padding: 1.5rem;
+  }
+}
+
+
+/* Login Signup */
+/* ==========================================================
+   🔐 AUTH PAGES (Login & Signup) — Unified MindWell Styling
+   Matches theme: lavender–teal, clean, glassmorphic
+   ========================================================== */
+
+.auth-page {
+  background: var(--gradient-bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+  padding: 2rem;
+}
+
+/* Glassmorphism container */
+.auth-container {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 8px 24px var(--color-shadow);
+  text-align: center;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+/* MindWell logo at top */
+.auth-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: none;
+  margin-bottom: 1.5rem;
+}
+
+/* Headings & text */
+.auth-container h2 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.auth-container p,
+.auth-subtext {
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+/* Form structure */
+.auth-form {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  color: var(--color-secondary);
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 10px;
+  border: 2px solid var(--color-gray);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: var(--color-white);
+}
+
+.form-group input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 6px rgba(108, 99, 255, 0.3);
+  outline: none;
+}
+
+/* Buttons */
+.auth-form button,
+.btn.full-width {
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 10px;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 16px rgba(108, 99, 255, 0.25);
+}
+
+.auth-form button:hover,
+.btn.full-width:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(108, 99, 255, 0.3);
+}
+
+/* Flash message style */
+.flash-messages {
+  margin-bottom: 1.2rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  display: none;
+}
+
+/* Footer */
+.auth-footer {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+}
+
+.auth-footer a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.auth-footer a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 2rem 1.5rem;
+  }
+  .auth-container h2 {
+    font-size: 1.6rem;
+  }
+}
+
+/* Subtle background animation for liveliness */
+.auth-page::before {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  top: 10%;
+  left: 15%;
+  background: rgba(108, 99, 255, 0.08);
+  animation: float 10s ease-in-out infinite;
+}
+
+.auth-page::after {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  bottom: 10%;
+  right: 10%;
+  background: rgba(0, 123, 131, 0.08);
+  animation: float 12s ease-in-out infinite reverse;
 }

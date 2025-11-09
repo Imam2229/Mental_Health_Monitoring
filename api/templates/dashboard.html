@@ -1,300 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MindWell Dashboard</title>
-  
-  <!-- CSS -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindWell — Dashboard</title>
+
+  <!-- External CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-  
-  <style>
-    /* ===== Global Styles ===== */
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      background: linear-gradient(135deg, #eef2ff 0%, #dbeafe 100%);
-      color: rgba(74, 156, 130, 0.85);
-      min-height: 100vh;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1rem;
-    }
-
-    /* ===== Header ===== */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    .logo h1 {
-      font-size: 1.8rem;
-      color: rgba(74, 156, 130, 0.85);
-      font-weight: 700;
-      margin: 0;
-    }
-
-    .nav {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .nav-link {
-      text-decoration: none;
-      color: rgba(74, 156, 130, 0.85);
-      font-weight: 600;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-
-    .nav-link:hover {
-      background: #eef2ff;
-      color: rgba(74, 156, 130, 0.85);
-    }
-
-    /* ===== Dashboard Section ===== */
-    .dashboard-section {
-      padding: 2rem 1rem;
-    }
-
-    .dashboard-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .dashboard-header h2 {
-      font-size: 2.5rem;
-      color: rgba(74, 156, 130, 0.85);
-      margin-bottom: 0.5rem;
-    }
-
-    .dashboard-header p {
-      font-size: 1.1rem;
-      color: #64748b;
-    }
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    .dashboard-card {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-      transition: all 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.8);
-    }
-
-    .dashboard-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
-
-    .dashboard-card h3 {
-      color: rgba(74, 156, 130, 0.85);
-      margin-bottom: 1.5rem;
-      font-size: 1.3rem;
-    }
-
-    /* ===== Form Elements ===== */
-    .mood-selector, .journal-textarea {
-      width: 100%;
-      padding: 0.8rem;
-      margin-top: 0.5rem;
-      border-radius: 12px;
-      border: 2px solid #e2e8f0;
-      font-family: 'Inter', sans-serif;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-
-    .mood-selector:focus, .journal-textarea:focus {
-      outline: none;
-      border-color: rgba(74, 156, 130, 0.85);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
-
-    .btn-primary {
-      background: rgba(74, 156, 130, 0.85);
-      color: white;
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      width: 100%;
-      margin-top: 1rem;
-    }
-
-    .btn-primary:hover {
-      background: rgba(74, 156, 130, 0.85);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
-    }
-
-    /* ===== Mood Submissions ===== */
-    .mood-submissions {
-      margin-top: 1.5rem;
-      max-height: 200px;
-      overflow-y: auto;
-      border-top: 1px solid #e2e8f0;
-      padding-top: 1rem;
-    }
-
-    .mood-entry {
-      padding: 0.8rem;
-      border-bottom: 1px solid #f1f5f9;
-      background: #f8fafc;
-      border-radius: 8px;
-      margin-bottom: 0.5rem;
-    }
-
-    .mood-entry:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-    }
-
-    /* ===== Charts ===== */
-    .chart-container {
-      margin-top: 1rem;
-      position: relative;
-      height: 250px;
-    }
-
-    /* ===== Stats Cards ===== */
-    .stats-card p {
-      margin: 0.8rem 0;
-      font-weight: 500;
-    }
-
-    #streakProgress {
-      background: #e2e8f0;
-      border-radius: 12px;
-      height: 16px;
-      width: 100%;
-      margin-top: 1rem;
-      overflow: hidden;
-    }
-
-    #streakProgressBar {
-      background: linear-gradient(90deg, #2563eb, #1e40af);
-      height: 16px;
-      border-radius: 12px;
-      transition: width 0.5s ease;
-    }
-
-    /* ===== Heatmap ===== */
-    .mood-heatmap {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-      margin-top: 1rem;
-    }
-
-    .mood-square {
-      aspect-ratio: 1;
-      border-radius: 4px;
-      background: #f1f5f9;
-      transition: all 0.3s ease;
-    }
-
-    .mood-square:hover {
-      transform: scale(1.1);
-    }
-
-    /* ===== Footer ===== */
-    .footer {
-      text-align: center;
-      padding: 2rem;
-      background: #f8fafc;
-      border-top: 1px solid #e2e8f0;
-      color: #64748b;
-      margin-top: 3rem;
-    }
-
-    /* ===== Responsive Design ===== */
-    @media (max-width: 768px) {
-      .header {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
-      }
-
-      .nav {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.5rem;
-      }
-
-      .dashboard-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .dashboard-section {
-        padding: 1rem 0.5rem;
-      }
-    }
-  </style>
 </head>
-<body>
-  <div class="container">
-    <!-- Header -->
-    <header class="header">
-      <div class="logo"><h1>🌱 MindWell</h1></div>
-      <nav class="nav">
-        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
-        <a href="{{ url_for('journal') }}" class="nav-link">Journal</a>
-        <a href="{{ url_for('meditation') }}" class="nav-link">Meditation</a>
-        <a href="{{ url_for('community') }}" class="nav-link">Community</a>
-        <a href="{{ url_for('export') }}" class="nav-link">Export</a>
-        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
-      </nav>
-    </header>
 
-    <!-- Dashboard Section -->
-    <section class="dashboard-section">
-      <div class="dashboard-header">
-        <h2>Welcome, {{ session['name'] }}! 👋</h2>
-        <p>Track your mood and get daily insights to nurture your mental wellbeing.</p>
+<body class="fade-in">
+
+  <!-- ================= HEADER ================= -->
+  <header class="site-header glass-header">
+    <div class="container header-inner">
+      <a href="{{ url_for('index') }}" class="brand">
+        🌱 <span>MindWell</span>
+      </a>
+
+      <div class="header-actions">
+        <button id="themeToggle" class="theme-toggle glow" title="Toggle Dark Mode">🌙</button>
       </div>
 
-      <div class="dashboard-grid">
-        <!-- Daily Stats / Streak -->
-        <div class="dashboard-card stats-card">
-          <h3>Daily Mood Stats 🌟</h3>
-          <p>Daily Streak: <span id="dailyStreak">0</span> days</p>
-          <p>Moods Submitted Today: <span id="todayMoods">0</span></p>
-          <p>Total Moods Logged: <span id="totalMoods">{{ mood_entries|length }}</span></p>
-          <div id="streakProgress">
-            <div id="streakProgressBar"></div>
-          </div>
-        </div>
+      <nav class="nav">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('dashboard') }}" class="active">Dashboard</a>
+        <a href="{{ url_for('journal') }}">Journal</a>
+        <a href="{{ url_for('meditation') }}">Meditation</a>
+        <a href="{{ url_for('community') }}">Community</a>
+        <a href="{{ url_for('export') }}">Export</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      </nav>
+    </div>
+  </header>
 
-        <!-- Mood Tracker Card -->
-        <div class="dashboard-card">
-          <h3>How are you feeling today? 💭</h3>
-          <form id="moodForm">
-            <label for="moodSelector">Select Your Mood:</label>
-            <select id="moodSelector" name="mood" class="mood-selector" required>
-              <option value="">How are you feeling?</option>
+  <!-- ================= MAIN DASHBOARD ================= -->
+  <main class="dashboard container fade-in">
+    <!-- Motivation Banner -->
+    <section class="motivation-banner glass fade-up delay-1">
+      <blockquote id="quoteText">"Loading your daily dose of positivity..."</blockquote>
+      <cite id="quoteAuthor"></cite>
+    </section>
+
+    <!-- Welcome -->
+    <section class="dashboard-welcome fade-up delay-2">
+      <h1>Welcome back, <span class="username">{{ session['name'] }}</span> 👋</h1>
+      <p>Track your emotions, reflect on your journey, and stay mindful every day 🌼</p>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="dashboard-stats fade-up delay-3">
+      <div class="stat-card glass">
+        <h3>🌤️ Daily Streak</h3>
+        <p><span class="count" id="dailyStreak">0</span> Days</p>
+        <div class="progress-bar"><div id="streakProgressBar"></div></div>
+      </div>
+
+      <div class="stat-card glass">
+        <h3>📝 Moods Today</h3>
+        <p><span class="count" id="todayMoods">0</span></p>
+      </div>
+
+      <div class="stat-card glass">
+        <h3>📊 Total Moods</h3>
+        <p><span class="count" id="totalMoods">{{ mood_entries|length }}</span></p>
+      </div>
+    </section>
+
+    <!-- Mood Tracker & Charts -->
+    <section class="dashboard-grid">
+      <!-- Mood Tracker -->
+      <div class="dashboard-card glass fade-up delay-4">
+        <h2>💭 Log Your Mood</h2>
+
+        <!-- ✅ Prevent Default Browser Submission -->
+        <form id="moodForm" action="javascript:void(0);" novalidate>
+          <div class="form-group">
+            <label for="moodSelector">How are you feeling today?</label>
+            <select id="moodSelector" name="mood" required>
+              <option value="">Select your mood</option>
               <option value="Happy">😊 Happy</option>
               <option value="Sad">😢 Sad</option>
               <option value="Stressed">😰 Stressed</option>
@@ -303,278 +91,113 @@
               <option value="Anxious">😥 Anxious</option>
               <option value="Calm">😌 Calm</option>
             </select>
-
-            <label for="moodDescription" style="margin-top: 1rem; display: block;">Mood Description:</label>
-            <textarea id="moodDescription" name="description" class="journal-textarea" 
-                     placeholder="What's influencing your mood today? Share as much or as little as you'd like..." 
-                     rows="3"></textarea>
-
-            <button type="submit" class="btn-primary">Submit Mood & Get Insights</button>
-          </form>
-
-          <p id="recommendation" style="margin-top:1rem; padding:1rem; background:#f0f9ff; border-radius:12px; border-left:4px solid #2563eb; font-weight:500; color:#1e3a8a;">
-            Your personalized recommendation will appear here...
-          </p>
-
-          <!-- Mood Submissions List -->
-          <div class="mood-submissions">
-            <h4>Recent Mood Entries</h4>
-            <div id="moodSubmissions">
-              {% if mood_entries %}
-                {% for entry in mood_entries %}
-                  <div class="mood-entry">
-                    <strong>{{ entry.mood }}</strong> - {{ entry.description }}
-                    <br><small style="color:#64748b;">{{ entry.timestamp }}</small>
-                  </div>
-                {% endfor %}
-              {% else %}
-                <p style="color: #64748b; text-align: center; padding: 2rem;">No mood entries yet. Start by submitting your first mood! 🌟</p>
-              {% endif %}
-            </div>
           </div>
+
+          <div class="form-group">
+            <label for="moodDescription">Add a note (optional)</label>
+            <textarea id="moodDescription" name="description" rows="3" placeholder="What’s affecting your mood today?"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary glow">Save Mood</button>
+        </form>
+
+        <div id="recommendation" class="mood-recommendation fade-in">
+          <p>Select a mood to receive a self-care tip 🌿</p>
         </div>
 
-        <!-- Weekly Mood Chart -->
-        <div class="dashboard-card">
-          <h3>Weekly Mood Chart 📊</h3>
-          <div class="chart-container">
-            <canvas id="weeklyChart"></canvas>
+        <!-- Recent Moods -->
+        <div class="mood-history fade-up delay-2">
+          <h3>🕓 Recent Entries</h3>
+          <div id="moodSubmissions">
+            {% if mood_entries %}
+              {% for entry in mood_entries[:5] %}
+                <div class="mood-entry fade-in">
+                  <strong>{{ entry.mood }}</strong> — {{ entry.description or 'No description' }}
+                  <br><small>{{ entry.timestamp }}</small>
+                </div>
+              {% endfor %}
+            {% else %}
+              <p class="no-entries">No mood entries yet. Start by logging your first one 🌱</p>
+            {% endif %}
           </div>
-        </div>
-
-        <!-- Mood Heatmap -->
-        <div class="dashboard-card">
-          <h3>Monthly Mood Heatmap 📅</h3>
-          <p style="color:#64748b; font-size:0.9rem; margin-bottom:1rem;">Your mood patterns over the last 30 days</p>
-          <div id="moodHeatmap" class="mood-heatmap"></div>
         </div>
       </div>
+
+      <!-- Charts Section -->
+      <div class="dashboard-card glass fade-up delay-5">
+        <h2>📈 Weekly Mood Trend</h2>
+        <canvas id="weeklyChart"></canvas>
+        <p class="chart-note">Understand your emotional trends over time 💫</p>
+      </div>
+
+      <div class="dashboard-card glass fade-up delay-6">
+        <h2>🌍 Global Mental Health Insights</h2>
+        <canvas id="mentalStatsChart"></canvas>
+        <p class="chart-note">Data inspired by WHO global reports 🌐</p>
+      </div>
+
+      <!-- Heatmap -->
+      <div class="dashboard-card glass fade-up delay-7">
+        <h2>📅 30-Day Mood Heatmap</h2>
+        <div id="moodHeatmap" class="mood-heatmap"></div>
+      </div>
     </section>
+  </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-      <p>&copy; 2025 MindWell. Take care of your mental health. 🌱</p>
-    </footer>
-  </div>
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer fade-up">
+    <div class="container">
+      <p>© 2025 <strong>MindWell</strong> — Empowering your emotional wellness journey 🌸</p>
+    </div>
+  </footer>
 
-  <!-- Pass mood entries to JS -->
+  <!-- Pass Mood Data -->
   <script type="application/json" id="moodData">
-      {{ mood_entries|tojson }}
+    {{ mood_entries|tojson }}
   </script>
 
-  <!-- Dashboard JavaScript -->
+  <!-- JS -->
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+
+  <!-- ✅ Inline Instant Mood Update Script -->
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-      const moodSelector = document.getElementById('moodSelector');
-      const moodDescription = document.getElementById('moodDescription');
-      const recommendation = document.getElementById('recommendation');
-      const moodForm = document.getElementById('moodForm');
-      const moodSubmissions = document.getElementById('moodSubmissions');
+    const moodForm = document.getElementById('moodForm');
+    const moodSelector = document.getElementById('moodSelector');
+    const moodDescription = document.getElementById('moodDescription');
+    const moodList = document.getElementById('moodSubmissions');
 
-      const dailyStreakElem = document.getElementById('dailyStreak');
-      const todayMoodsElem = document.getElementById('todayMoods');
-      const totalMoodsElem = document.getElementById('totalMoods');
-      const streakProgressBar = document.getElementById('streakProgressBar');
+    moodForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const mood = moodSelector.value;
+      const description = moodDescription.value.trim();
 
-      // Enhanced recommendation map
-      const recMap = {
-          Happy: "🌟 Wonderful! Celebrate this positive moment. Consider journaling about what's making you happy today.",
-          Sad: "💙 It's okay to feel this way. Be gentle with yourself. A short walk or calling a friend might help.",
-          Stressed: "🧘‍♂️ Take a mindful break. Try the 4-7-8 breathing technique: breathe in for 4, hold for 7, out for 8.",
-          Neutral: "🌿 A balanced state is perfect for reflection. What small thing could bring you joy today?",
-          Excited: "🎊 Channel this energy! Consider starting a new project or sharing your excitement with others.",
-          Anxious: "🌬️ Ground yourself with the 5-4-3-2-1 technique: notice 5 things you see, 4 you feel, 3 you hear, 2 you smell, 1 you taste.",
-          Calm: "😌 Beautiful state of mind. This is perfect for meditation or mindful reflection."
-      };
+      if (!mood) return alert('Please select your mood.');
 
-      moodSelector.addEventListener('change', () => {
-          const mood = moodSelector.value;
-          recommendation.textContent = recMap[mood] || 'Select a mood to get personalized recommendations.';
-      });
-
-      // Initialize Chart.js
-      const ctx = document.getElementById('weeklyChart').getContext('2d');
-      let moodsData = JSON.parse(document.getElementById('moodData').textContent || '[]');
-
-      const moodCounts = () => {
-          const counts = { 
-              Happy: 0, Sad: 0, Stressed: 0, Neutral: 0, 
-              Excited: 0, Anxious: 0, Calm: 0 
-          };
-          moodsData.forEach(entry => {
-              if(counts[entry.mood] !== undefined) counts[entry.mood]++;
-          });
-          return counts;
+      try {
+        const res = await fetch('/api/mood', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mood, description })
+        });
+        const data = await res.json();
+        if (data.success) {
+          const newEntry = document.createElement('div');
+          newEntry.className = 'mood-entry fade-in';
+          newEntry.innerHTML = `
+            <strong>${mood}</strong> — ${description || 'No description'}
+            <br><small>${new Date().toLocaleString()}</small>
+          `;
+          moodList.prepend(newEntry);
+          moodForm.reset();
+          alert('✅ Mood logged successfully!');
+        } else {
+          alert('❌ ' + (data.message || 'Failed to save mood.'));
+        }
+      } catch (err) {
+        console.error('Error saving mood:', err);
+        alert('Server error. Please try again later.');
       }
-
-      let chart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-              labels: Object.keys(moodCounts()),
-              datasets: [{
-                  label: 'Mood Count',
-                  data: Object.values(moodCounts()),
-                  backgroundColor: [
-                    '#4ade80', '#f87171', '#fb923c', '#94a3b8', 
-                    '#fbbf24', '#c084fc', '#60a5fa'
-                  ],
-                  borderRadius: 8
-              }]
-          },
-          options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: { 
-                  legend: { display: false },
-                  tooltip: { backgroundColor: '#1e293b', padding: 12 }
-              },
-              scales: { 
-                  y: { 
-                      beginAtZero: true, 
-                      grid: { color: 'rgba(0,0,0,0.1)' }
-                  },
-                  x: {
-                      grid: { display: false }
-                  }
-              }
-          }
-      });
-
-      // Calculate streak and daily moods
-      const updateStats = () => {
-          const today = new Date().toISOString().split('T')[0];
-          const moodsToday = moodsData.filter(entry => 
-              new Date(entry.timestamp).toISOString().split('T')[0] === today
-          ).length;
-          
-          todayMoodsElem.textContent = moodsToday;
-          totalMoodsElem.textContent = moodsData.length;
-
-          // Streak calculation
-          let streak = 0;
-          let dateCursor = new Date();
-          const uniqueDays = new Set(moodsData.map(entry => 
-              new Date(entry.timestamp).toISOString().split('T')[0]
-          ));
-
-          while (streak < 30) { // Max streak display
-              const checkDate = dateCursor.toISOString().split('T')[0];
-              if (uniqueDays.has(checkDate)) {
-                  streak++;
-                  dateCursor.setDate(dateCursor.getDate() - 1);
-              } else {
-                  break;
-              }
-          }
-          
-          dailyStreakElem.textContent = streak;
-          streakProgressBar.style.width = Math.min((streak / 7) * 100, 100) + "%";
-      }
-
-      updateStats();
-
-      // AJAX Mood Submission
-      moodForm.addEventListener('submit', async (e) => {
-          e.preventDefault();
-
-          const mood = moodSelector.value;
-          const description = moodDescription.value;
-
-          if (!mood) {
-              alert("Please select a mood to continue!");
-              return;
-          }
-
-          try {
-              const res = await fetch("/api/mood", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ mood, description })
-              });
-
-              const data = await res.json();
-              if (data.success) {
-                  // Add new entry to list
-                  const now = new Date().toLocaleString();
-                  const div = document.createElement("div");
-                  div.className = "mood-entry";
-                  div.innerHTML = `<strong>${mood}</strong> - ${description || 'No description'}
-                                  <br><small style="color:#64748b;">${now}</small>`;
-                  
-                  const noMoodsMsg = moodSubmissions.querySelector('p');
-                  if (noMoodsMsg) noMoodsMsg.remove();
-                  
-                  moodSubmissions.prepend(div);
-
-                  // Clear form
-                  moodSelector.value = "";
-                  moodDescription.value = "";
-                  recommendation.textContent = "Mood submitted! Check your insights above. 🌟";
-
-                  // Update chart
-                  moodsData.unshift({ 
-                      mood, 
-                      description, 
-                      timestamp: new Date().toISOString() 
-                  });
-                  chart.data.datasets[0].data = Object.values(moodCounts());
-                  chart.update();
-
-                  // Update stats
-                  updateStats();
-
-                  // Update heatmap
-                  renderHeatmap();
-
-              } else {
-                  alert("Failed to submit mood. Please try again.");
-              }
-          } catch (error) {
-              alert("Network error. Please check your connection and try again.");
-          }
-      });
-
-      // Enhanced Heatmap rendering
-      const renderHeatmap = () => {
-          const heatmapContainer = document.getElementById('moodHeatmap');
-          heatmapContainer.innerHTML = '';
-
-          // Last 30 days
-          const today = new Date();
-          const days = [];
-          for(let i = 29; i >= 0; i--){
-              const d = new Date();
-              d.setDate(today.getDate() - i);
-              days.push({
-                  date: d.toISOString().split('T')[0],
-                  count: 0
-              });
-          }
-
-          // Count moods per day
-          moodsData.forEach(entry => {
-              const entryDate = new Date(entry.timestamp).toISOString().split('T')[0];
-              const day = days.find(d => d.date === entryDate);
-              if(day) day.count++;
-          });
-
-          const maxCount = Math.max(...days.map(d => d.count), 1);
-
-          // Render squares
-          days.forEach(day => {
-              const div = document.createElement('div');
-              div.className = 'mood-square';
-              const intensity = Math.min(day.count / maxCount, 1);
-              div.style.backgroundColor = intensity > 0 
-                  ? `rgba(37, 99, 235, ${0.3 + intensity * 0.7})`
-                  : '#f1f5f9';
-              div.title = `${day.date}: ${day.count} mood${day.count !== 1 ? 's' : ''}`;
-              heatmapContainer.appendChild(div);
-          });
-      }
-
-      renderHeatmap();
-  });
+    });
   </script>
 </body>
 </html>
