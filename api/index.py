@@ -7,7 +7,7 @@ from functools import wraps
 app = Flask(__name__)
 app.secret_key = "mindwell_2025_secret_key_shahnawaz"
 
-# ------------------ MongoDB Atlas Connection ------------------
+# [ MongoDB Atlas Connection ]
 client = MongoClient(
     "mongodb+srv://shahnawazimam53_db_user:Imam1234@cluster0.qogjor8.mongodb.net/mindwell?retryWrites=true&w=majority"
 )
@@ -18,7 +18,7 @@ journals_col = db['journals']
 community_col = db['community_posts']
 meditations_col = db['meditations']
 
-# ------------------ Helper: Login Required ------------------
+# [ Helper: Login Required ]
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -219,3 +219,5 @@ def reset_password():
 # ------------------ Main ------------------
 if __name__ == "__main__":
     app.run(debug=True)
+else:
+    app = app
