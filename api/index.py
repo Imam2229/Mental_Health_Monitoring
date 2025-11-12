@@ -4,17 +4,25 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from functools import wraps
 import os
+import logging
 
 # ------------------ App Config ------------------
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "mindwell_default_secret_key")
+# recommended (optional) cookie config for deployed HTTPS environments:
+app.config.update(SESSION_COOKIE_SAMESITE="Lax", SESSION_COOKIE_SECURE=True)
+
+# logging
+logging.basicConfig(level=logging.INFO)
 
 # ------------------ MongoDB Connection ------------------
 MONGO_URI = os.getenv(
     "MONGO_URI",
     "mongodb+srv://shahnawazimam53_db_user:Imam1234@cluster0.qogjor8.mongodb.net/mindwell?retryWrites=true&w=majority"
 )
-client = MongoClient(MONGO_URI)
+# TLS / certificate issues sometimes appear on serverless hosts.
+# Passing tls=True is safe; tlsAllowInvalidCertificates can be toggled if needed.
+client = MongoClient(MONGO_URI, tls=True)
 db = client["mindwell"]
 
 # Collections
@@ -29,6 +37,9 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if "email" not in session:
+            # For AJAX requests, return JSON; for browser navigation, redirect
+            if request.is_json or request.headers.get("X-Requested-With") == "XMLHttpRequest":
+                return jsonify({"success": False, "message": "Authentication required."}), 401
             return redirect(url_for("login"))
         return f(*args, **kwargs)
     return decorated_function
@@ -40,6 +51,20 @@ def index():
     return render_template("index.html")
 
 
+# ------------------ Helpers to get POST data robustly ------------------
+def get_post_data():
+    """
+    Return a dict of POST data whether it's application/json or form-encoded.
+    """
+    if request.is_json:
+        try:
+            return request.get_json(force=True) or {}
+        except Exception:
+            return {}
+    # for form-encoded posts
+    return request.form.to_dict() or {}
+
+
 # ------------------ Signup ------------------
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -47,16 +72,10 @@ def signup():
         return render_template("signup.html")
 
     try:
-        # Handle both JSON and form submissions
-        if request.is_json:
-            data = request.get_json(force=True)
-            name = data.get("name")
-            email = data.get("email")
-            password = data.get("password")
-        else:
-            name = request.form.get("name")
-            email = request.form.get("email")
-            password = request.form.get("password")
+        data = get_post_data()
+        name = (data.get("name") or "").strip()
+        email = (data.get("email") or "").strip()
+        password = data.get("password") or ""
 
         if not all([name, email, password]):
             return jsonify({"success": False, "message": "All fields are required."}), 400
@@ -74,6 +93,7 @@ def signup():
         return jsonify({"success": True, "message": "Signup successful!"})
 
     except Exception as e:
+        logging.exception("Signup error")
         return jsonify({"success": False, "message": f"Error: {str(e)}"}), 500
 
 
@@ -84,14 +104,9 @@ def login():
         return render_template("login.html")
 
     try:
-        # Handle both JSON and form submissions
-        if request.is_json:
-            data = request.get_json(force=True)
-            email = data.get("email")
-            password = data.get("password")
-        else:
-            email = request.form.get("email")
-            password = request.form.get("password")
+        data = get_post_data()
+        email = (data.get("email") or "").strip()
+        password = data.get("password") or ""
 
         if not all([email, password]):
             return jsonify({"success": False, "message": "Email and password required."}), 400
@@ -99,13 +114,14 @@ def login():
         user = users_col.find_one({"email": email})
         if user and check_password_hash(user["password"], password):
             session["email"] = email
-            session["name"] = user["name"]
+            session["name"] = user.get("name", "")
             session["user_id"] = str(user["_id"])
             return jsonify({"success": True, "message": "Login successful!"})
         else:
             return jsonify({"success": False, "message": "Invalid email or password."})
 
     except Exception as e:
+        logging.exception("Login error")
         return jsonify({"success": False, "message": f"Error: {str(e)}"}), 500
 
 
@@ -123,7 +139,7 @@ def dashboard():
     email = session["email"]
     user_moods = list(moods_col.find({"email": email}, {"_id": 0}).sort("timestamp", -1))
     user_journals = list(journals_col.find({"email": email}, {"_id": 0}).sort("timestamp", -1))
-    user_community_posts = list(community_col.find({"email": email}, {"_id": 0}).sort("timestamp", -1))
+    user_community_posts = list(community_col.find({}, {"_id": 0}).sort("timestamp", -1))
     user_meditations = list(meditations_col.find({"email": email}, {"_id": 0}).sort("timestamp", -1))
 
     return render_template(
@@ -139,21 +155,25 @@ def dashboard():
 @app.route("/api/mood", methods=["POST"])
 @login_required
 def api_mood():
-    email = session["email"]
-    data = request.get_json() or {}
-    mood = data.get("mood")
-    description = data.get("description", "")
+    try:
+        email = session["email"]
+        data = get_post_data()
+        mood = (data.get("mood") or "").strip()
+        description = (data.get("description") or "").strip()
 
-    if not mood:
-        return jsonify({"success": False, "message": "Mood is required."}), 400
+        if not mood:
+            return jsonify({"success": False, "message": "Mood is required."}), 400
 
-    moods_col.insert_one({
-        "email": email,
-        "mood": mood,
-        "description": description,
-        "timestamp": datetime.utcnow()
-    })
-    return jsonify({"success": True, "message": "Mood saved successfully!"})
+        moods_col.insert_one({
+            "email": email,
+            "mood": mood,
+            "description": description,
+            "timestamp": datetime.utcnow()
+        })
+        return jsonify({"success": True, "message": "Mood saved successfully!"})
+    except Exception as e:
+        logging.exception("API mood error")
+        return jsonify({"success": False, "message": f"Error saving mood: {str(e)}"}), 500
 
 
 # ------------------ Journal ------------------
@@ -166,22 +186,26 @@ def journal():
 @app.route("/api/journal", methods=["GET", "POST"])
 @login_required
 def api_journal():
-    email = session["email"]
-    if request.method == "POST":
-        data = request.get_json() or {}
-        entry = data.get("entry")
-        if not entry:
-            return jsonify({"success": False, "message": "Journal entry is required."}), 400
+    try:
+        email = session["email"]
+        if request.method == "POST":
+            data = get_post_data()
+            entry = (data.get("entry") or "").strip()
+            if not entry:
+                return jsonify({"success": False, "message": "Journal entry is required."}), 400
 
-        journals_col.insert_one({
-            "email": email,
-            "entry": entry,
-            "timestamp": datetime.utcnow()
-        })
-        return jsonify({"success": True})
+            journals_col.insert_one({
+                "email": email,
+                "entry": entry,
+                "timestamp": datetime.utcnow()
+            })
+            return jsonify({"success": True})
 
-    entries = list(journals_col.find({"email": email}, {"_id": 0}).sort("timestamp", -1))
-    return jsonify(entries)
+        entries = list(journals_col.find({"email": email}, {"_id": 0}).sort("timestamp", -1))
+        return jsonify(entries)
+    except Exception as e:
+        logging.exception("API journal error")
+        return jsonify({"success": False, "message": f"Error: {str(e)}"}), 500
 
 
 # ------------------ Community ------------------
@@ -195,24 +219,28 @@ def community():
 @app.route("/api/community", methods=["GET", "POST"])
 @login_required
 def api_community():
-    email = session["email"]
+    try:
+        email = session["email"]
 
-    if request.method == "POST":
-        data = request.get_json() or {}
-        message = data.get("message", "").strip()
-        if not message:
-            return jsonify({"success": False, "message": "Message cannot be empty."}), 400
+        if request.method == "POST":
+            data = get_post_data()
+            message = (data.get("message") or "").strip()
+            if not message:
+                return jsonify({"success": False, "message": "Message cannot be empty."}), 400
 
-        community_col.insert_one({
-            "email": email,
-            "name": session["name"],
-            "content": message,
-            "timestamp": datetime.utcnow()
-        })
-        return jsonify({"success": True, "message": "Post shared successfully!"})
+            community_col.insert_one({
+                "email": email,
+                "name": session.get("name", ""),
+                "content": message,
+                "timestamp": datetime.utcnow()
+            })
+            return jsonify({"success": True, "message": "Post shared successfully!"})
 
-    posts = list(community_col.find({}, {"_id": 0}).sort("timestamp", -1))
-    return jsonify(posts)
+        posts = list(community_col.find({}, {"_id": 0}).sort("timestamp", -1))
+        return jsonify(posts)
+    except Exception as e:
+        logging.exception("API community error")
+        return jsonify({"success": False, "message": f"Error sharing post: {str(e)}"}), 500
 
 
 # ------------------ Meditation ------------------
@@ -266,4 +294,5 @@ def reset_password():
 if __name__ == "__main__":
     app.run(debug=True)
 else:
+    # required so Vercel can import `app`
     app = app
