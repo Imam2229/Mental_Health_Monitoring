@@ -3,22 +3,25 @@ from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from functools import wraps
+import os
 
+# ------------------ App Config ------------------
 app = Flask(__name__)
-app.secret_key = "mindwell_2025_secret_key_shahnawaz"
+app.secret_key = os.getenv("SECRET_KEY", "mindwell_default_secret_key")
 
-# [ MongoDB Atlas Connection ]
-client = MongoClient(
-    "mongodb+srv://shahnawazimam53_db_user:Imam1234@cluster0.qogjor8.mongodb.net/mindwell?retryWrites=true&w=majority"
-)
+# ------------------ MongoDB Connection ------------------
+MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://shahnawazimam53_db_user:Imam1234@cluster0.qogjor8.mongodb.net/mindwell?retryWrites=true&w=majority")
+client = MongoClient(MONGO_URI)
 db = client['mindwell']
+
+# Collections
 users_col = db['users']
 moods_col = db['moods']
 journals_col = db['journals']
 community_col = db['community_posts']
 meditations_col = db['meditations']
 
-# [ Helper: Login Required ]
+# ------------------ Helper: Login Required ------------------
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -38,22 +41,29 @@ def signup():
     if request.method == 'GET':
         return render_template('signup.html')
 
-    data = request.get_json()
-    name = data.get('name')
-    email = data.get('email')
-    password = data.get('password')
+    try:
+        data = request.get_json(force=True)
+        name = data.get('name')
+        email = data.get('email')
+        password = data.get('password')
 
-    if users_col.find_one({"email": email}):
-        return jsonify({"success": False, "message": "Email already registered."})
+        if not all([name, email, password]):
+            return jsonify({"success": False, "message": "All fields are required."}), 400
 
-    hashed_password = generate_password_hash(password)
-    users_col.insert_one({
-        "name": name,
-        "email": email,
-        "password": hashed_password,
-        "created_at": datetime.utcnow()
-    })
-    return jsonify({"success": True})
+        if users_col.find_one({"email": email}):
+            return jsonify({"success": False, "message": "Email already registered."})
+
+        hashed_password = generate_password_hash(password)
+        users_col.insert_one({
+            "name": name,
+            "email": email,
+            "password": hashed_password,
+            "created_at": datetime.utcnow()
+        })
+        return jsonify({"success": True})
+
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
 
 # ------------------ Login ------------------
 @app.route('/login', methods=['GET', 'POST'])
@@ -61,17 +71,24 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
 
-    data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
+    try:
+        data = request.get_json(force=True)
+        email = data.get('email')
+        password = data.get('password')
 
-    user = users_col.find_one({"email": email})
-    if user and check_password_hash(user['password'], password):
-        session['email'] = email
-        session['name'] = user['name']
-        session['user_id'] = str(user['_id'])
-        return jsonify({"success": True})
-    return jsonify({"success": False, "message": "Invalid email or password."})
+        if not all([email, password]):
+            return jsonify({"success": False, "message": "Email and password required."}), 400
+
+        user = users_col.find_one({"email": email})
+        if user and check_password_hash(user['password'], password):
+            session['email'] = email
+            session['name'] = user['name']
+            session['user_id'] = str(user['_id'])
+            return jsonify({"success": True})
+        return jsonify({"success": False, "message": "Invalid email or password."})
+
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
 
 # ------------------ Logout ------------------
 @app.route('/logout')
@@ -80,7 +97,7 @@ def logout():
     return redirect(url_for('login'))
 
 # ------------------ Dashboard ------------------
-@app.route('/dashboard', methods=['GET'])
+@app.route('/dashboard')
 @login_required
 def dashboard():
     email = session['email']
@@ -97,7 +114,7 @@ def dashboard():
         meditation_entries=user_meditations
     )
 
-# ------------------ ✅ API: Save Mood (Fix for Dashboard) ------------------
+# ------------------ Mood API ------------------
 @app.route('/api/mood', methods=['POST'])
 @login_required
 def api_mood():
@@ -143,7 +160,7 @@ def api_journal():
     entries = list(journals_col.find({"email": email}, {"_id": 0}).sort("timestamp", -1))
     return jsonify(entries)
 
-# ------------------ ✅ Community ------------------
+# ------------------ Community ------------------
 @app.route('/community')
 @login_required
 def community():
@@ -164,7 +181,7 @@ def api_community():
         community_col.insert_one({
             "email": email,
             "name": session['name'],
-            "content": message,  # fixed field to 'content' to match template
+            "content": message,
             "timestamp": datetime.utcnow()
         })
         return jsonify({"success": True, "message": "Post shared successfully!"})
@@ -194,7 +211,7 @@ def export():
         meditation_entries=user_meditations
     )
 
-# ------------------ Forgot Password ------------------
+# ------------------ Password Reset ------------------
 @app.route('/forgot-password', methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'POST':
@@ -207,7 +224,6 @@ def forgot_password():
         return redirect(url_for('forgot_password'))
     return render_template('forgot-password.html')
 
-# ------------------ Reset Password ------------------
 @app.route('/reset-password', methods=['GET', 'POST'])
 def reset_password():
     if request.method == 'POST':
